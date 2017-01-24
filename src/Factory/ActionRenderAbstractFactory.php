@@ -68,7 +68,9 @@ class ActionRenderAbstractFactory implements AbstractFactoryInterface
         if ($container->has($action) && $container->has($render)) {
             return new ActionRenderMiddleware($container->get($action), $container->get($render));
         }
-
-        throw new ServiceNotCreatedException("Not get $middleware for service");
+        $errorStr = "Not found ";
+        $errorStr .= !$container->has($action) ? $action . " " : "";
+        $errorStr .= !$container->has($render) ? $render . " " : "";
+        throw new ServiceNotCreatedException($errorStr . "for service");
     }
 }

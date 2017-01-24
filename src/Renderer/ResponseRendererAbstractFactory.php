@@ -38,21 +38,22 @@ class ResponseRendererAbstractFactory implements AbstractFactoryInterface
     {
         $config = $container->get('config')[static::KEY_RESPONSE_RENDERER][$requestedName];
 
-        $dynamicResponseReturner = function (Request $request, Response $response, callable $next = null) use ($container, $config) {
-            $accept = $request->getHeaderLine('Accept');
+        $dynamicResponseReturner =
+            function (Request $request, Response $response, callable $next = null) use ($container, $config) {
+                $accept = $request->getHeaderLine('Accept');
 
-            foreach ($config[static::KEY_ACCEPT_TYPE_PATTERN] as $acceptTypePattern => $responseMiddleware) {
-                if (preg_match($acceptTypePattern, $accept)) {
-                    if (!$container->has($responseMiddleware)) {
-                        throw new ServiceNotFoundException("$responseMiddleware not found!");
+                foreach ($config[static::KEY_ACCEPT_TYPE_PATTERN] as $acceptTypePattern => $responseMiddleware) {
+                    if (preg_match($acceptTypePattern, $accept)) {
+                        if (!$container->has($responseMiddleware)) {
+                            throw new ServiceNotFoundException("$responseMiddleware not found!");
+                        }
+                        $responseMiddleware = $container->get($responseMiddleware);
+                        return $responseMiddleware($request, $response, $next);
                     }
-                    $responseMiddleware = $container->get($responseMiddleware);
-                    return $responseMiddleware($request, $response, $next);
                 }
-            }
 
-            throw new ServiceNotFoundException("ResponseRenderer for '$accept' not found!");
-        };
+                throw new ServiceNotCreatedException("ResponseRenderer for '$accept' not set!");
+            };
 
         return $dynamicResponseReturner;
     }
