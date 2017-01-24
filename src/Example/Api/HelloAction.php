@@ -6,7 +6,7 @@
  * Time: 12:26
  */
 
-namespace rollun\skeleton\Api;
+namespace rollun\actionrender\Example\Api;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -17,20 +17,6 @@ use Zend\Stratigility\MiddlewareInterface;
 
 class HelloAction implements MiddlewareInterface
 {
-
-    /**
-     * @var TemplateRendererInterface
-     */
-    protected $templateRenderer;
-
-    /**
-     * HelloAction constructor.
-     * @param TemplateRendererInterface $templateRenderer
-     */
-    public function __construct(TemplateRendererInterface $templateRenderer)
-    {
-        $this->templateRenderer = $templateRenderer;
-    }
 
     /**
      * Process an incoming request and/or response.
@@ -60,19 +46,17 @@ class HelloAction implements MiddlewareInterface
      */
     public function __invoke(Request $request, Response $response, callable $out = null)
     {
-        /*$query = $request->getQueryParams();
-        if (isset($query['app_env'])) {
-
-        }*/
         $name = $request->getAttribute('name');
         $str = "[" . constant('APP_ENV') . "] Hello $name!";
+
         if ($name === "error") {
             throw new \Exception("Exception by string: $str");
         }
-        if (preg_match('/application\/json/', $request->getHeaderLine('Accept'))) {
-            return new JsonResponse([$str]);
-        } else {
-            return new HtmlResponse($this->templateRenderer->render('app::home-page', ['str' => $str]));
+        $request = $request->withAttribute('Response-Data', ['str' => $str]);
+
+        if (isset($out)) {
+            return $out($request, $response);
         }
+        return $response;
     }
 }

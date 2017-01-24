@@ -5,8 +5,7 @@
  * Date: 16.01.17
  * Time: 14:13
  */
-
-namespace rollun\test\skeleton\Api;
+namespace rollun\test\actionrender\Api;
 
 use PHPUnit_Framework_TestCase;
 use rollun\skeleton\Api\HelloAction;

@@ -1,5 +1,5 @@
 {
-  "name": "rollun-com/rollun-skeleton",
+  "name": "rollun-com/rollun-actionrender",
   "description": "Skeleton for app or lib",
   "minimum-stability": "stable",
   "license": "proprietary",
@@ -36,12 +36,12 @@
   },
   "autoload": {
     "psr-4": {
-      "rollun\\skeleton\\": "src/"
+      "rollun\\actionrender\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "rollun\\test\\skeleton\\": "tests/src"
+      "rollun\\test\\actionrender\\": "tests/src"
     }
   },
   "scripts": {
