@@ -2,33 +2,18 @@
 /**
  * Created by PhpStorm.
  * User: root
- * Date: 23.01.17
- * Time: 18:02
+ * Date: 25.01.17
+ * Time: 12:39
  */
 
-namespace rollun\actionrender\Renderer\Html;
+namespace rollun\actionrender;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\Stratigility\MiddlewareInterface;
 
-class HtmlRendererAction implements MiddlewareInterface
+class ReturnMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var TemplateRendererInterface
-     */
-    protected $templateRenderer;
-
-    /**
-     * HelloAction constructor.
-     * @param TemplateRendererInterface $templateRenderer
-     */
-    public function __construct(TemplateRendererInterface $templateRenderer)
-    {
-        $this->templateRenderer = $templateRenderer;
-    }
 
     /**
      * Process an incoming request and/or response.
@@ -57,15 +42,7 @@ class HtmlRendererAction implements MiddlewareInterface
      */
     public function __invoke(Request $request, Response $response, callable $out = null)
     {
-        $data = $request->getAttribute('Response-Data');
-        $name = $request->getAttribute('Template-Name');
-
-        $request = $request->withAttribute(Response::class, new HtmlResponse($this->templateRenderer->render($name, $data)));
-
-        if (isset($out)) {
-            return $out($request, $response);
-        }
-
+        $response = $request->getAttribute(Response::class) ?: $response;
         return $response;
     }
 }
