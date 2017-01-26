@@ -30,7 +30,7 @@
 
 ### Json
 
-Для отображение Json существует JsonRendererAction он берет данные из атрибута `Responce-Data` и отдает их в виде json.
+Для отображение Json существует JsonRendererAction он берет данные из атрибута `responceData` и отдает их в виде json.
 
 ### Html
 
@@ -39,4 +39,4 @@
 HtmlParamResolver - получает из response имя роута и кладет его в атрибут запроса `Template-Name` c префиксом `'app::'` .
 
 HtmlRendererAction - используя шаблонизатор, рендерит результат используя в качестве имени шаблона атрибут `Template-Name`,
-а `Responce-Data` - данных.
+а `responceData` - данных.

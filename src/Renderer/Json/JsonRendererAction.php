@@ -44,6 +44,13 @@ class JsonRendererAction implements MiddlewareInterface
     public function __invoke(Request $request, Response $response, callable $out = null)
     {
         $data = $request->getAttribute('Response-Data');
-        return new JsonResponse($data);
+
+        $request = $request->withAttribute(Response::class,  new JsonResponse($data));
+
+        if (isset($out)) {
+            return $out($request, $response);
+        }
+
+        return $response;
     }
 }

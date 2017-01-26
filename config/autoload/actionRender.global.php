@@ -22,6 +22,8 @@ return [
                 \rollun\actionrender\Renderer\Html\HtmlParamResolver::class,
             \rollun\actionrender\Renderer\Json\JsonRendererAction::class =>
                 \rollun\actionrender\Renderer\Json\JsonRendererAction::class,
+            \rollun\actionrender\ReturnMiddleware::class =>
+                \rollun\actionrender\ReturnMiddleware::class
         ],
         'factories' => [
             \rollun\actionrender\Renderer\Html\HtmlRendererAction::class =>

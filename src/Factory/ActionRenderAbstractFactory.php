@@ -11,6 +11,7 @@ namespace rollun\actionrender\Factory;
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
 use rollun\actionrender\ActionRenderMiddleware;
+use rollun\actionrender\ReturnMiddleware;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\AbstractFactoryInterface;
@@ -24,6 +25,8 @@ class ActionRenderAbstractFactory implements AbstractFactoryInterface
     const KEY_ACTION_MIDDLEWARE_SERVICE = 'ActionMiddlewareService';
 
     const KEY_RENDER_MIDDLEWARE_SERVICE = 'RenderMiddlewareService';
+
+    const KEY_RETURNER_MIDDLEWARE_SERVICE = 'ReturnerMiddlewareService';
 
 
     /**
@@ -64,9 +67,25 @@ class ActionRenderAbstractFactory implements AbstractFactoryInterface
         $middleware = $config[static::KEY_AR_SERVICE][$requestedName][static::KEY_AR_MIDDLEWARE];
         $action = $middleware[static::KEY_ACTION_MIDDLEWARE_SERVICE];
         $render = $middleware[static::KEY_RENDER_MIDDLEWARE_SERVICE];
+        $returner = isset($middleware[static::KEY_RETURNER_MIDDLEWARE_SERVICE]) ?
+            $middleware[static::KEY_RETURNER_MIDDLEWARE_SERVICE] : null;
 
         if ($container->has($action) && $container->has($render)) {
-            return new ActionRenderMiddleware($container->get($action), $container->get($render));
+            if (!is_null($returner)) {
+                if ($container->has($returner)) {
+                    return new ActionRenderMiddleware(
+                        $container->get($action),
+                        $container->get($render),
+                        $container->get($returner)
+                    );
+                }
+                throw new ServiceNotCreatedException("Not found $returner for service");
+            }
+            return new ActionRenderMiddleware(
+                $container->get($action),
+                $container->get($render),
+                new ReturnMiddleware()
+            );
         }
         $errorStr = "Not found ";
         $errorStr .= !$container->has($action) ? $action . " " : "";
