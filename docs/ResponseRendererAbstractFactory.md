@@ -36,7 +36,7 @@
 
 Для отображения в html используются два middleware 
 
-HtmlParamResolver - получает из response имя роута и кладет его в атрибут запроса `Template-Name` c префиксом `'app::'` .
+HtmlParamResolver - получает из response имя роута и кладет его в атрибут запроса `templateName` c префиксом `'app::'` .
 
-HtmlRendererAction - используя шаблонизатор, рендерит результат используя в качестве имени шаблона атрибут `Template-Name`,
+HtmlRendererAction - используя шаблонизатор, рендерит результат используя в качестве имени шаблона атрибут `templateName`,
 а `responceData` - данных.
