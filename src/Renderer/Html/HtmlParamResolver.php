@@ -45,7 +45,7 @@ class HtmlParamResolver implements MiddlewareInterface
         $routeResult = $request->getAttribute('Zend\Expressive\Router\RouteResult');
         $routeName = 'app::' . $routeResult->getMatchedRouteName();
 
-        $request = $request->withAttribute('Template-Name', $routeName);
+        $request = $request->withAttribute('templateName', $routeName);
         if (isset($out)) {
             return $out($request, $response);
         }

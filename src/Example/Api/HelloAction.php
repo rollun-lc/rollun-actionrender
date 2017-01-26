@@ -52,7 +52,7 @@ class HelloAction implements MiddlewareInterface
         if ($name === "error") {
             throw new \Exception("Exception by string: $str");
         }
-        $request = $request->withAttribute('Response-Data', ['str' => $str]);
+        $request = $request->withAttribute('responseData', ['str' => $str]);
 
         if (isset($out)) {
             return $out($request, $response);
