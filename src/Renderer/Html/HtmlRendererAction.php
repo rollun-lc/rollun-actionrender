@@ -57,7 +57,7 @@ class HtmlRendererAction implements MiddlewareInterface
      */
     public function __invoke(Request $request, Response $response, callable $out = null)
     {
-        $data = $request->getAttribute('responseData') ?: [];
+        $data = $request->getAttribute('responseData');
         $name = $request->getAttribute('templateName');
         $status = $request->getAttribute('status') ?: 200;
 
