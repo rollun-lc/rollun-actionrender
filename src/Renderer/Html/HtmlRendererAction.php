@@ -59,9 +59,16 @@ class HtmlRendererAction implements MiddlewareInterface
     {
         $data = $request->getAttribute('responseData');
         $name = $request->getAttribute('templateName');
-        $status = $request->getAttribute('responseStatus') ?: 200;
-        $headers = $request->getAttribute('responseHeaders') ?: [];
 
+        /** @var Response $response */
+        $response = $request->getAttribute(Response::class) ?: null;
+        if (!isset($response)) {
+            $status = 200;
+            $headers = [];
+        } else {
+            $status = $response->getStatusCode();
+            $headers = $response->getHeaders();
+        }
 
         $response = new HtmlResponse($this->templateRenderer->render($name, $data), $status);
         foreach ($headers as $header => $value) {
