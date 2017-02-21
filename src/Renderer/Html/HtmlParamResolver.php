@@ -10,6 +10,7 @@ namespace rollun\actionrender\Renderer\Html;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Zend\Expressive\Router\RouteResult;
 use Zend\Stratigility\MiddlewareInterface;
 
 class HtmlParamResolver implements MiddlewareInterface
@@ -42,8 +43,10 @@ class HtmlParamResolver implements MiddlewareInterface
      */
     public function __invoke(Request $request, Response $response, callable $out = null)
     {
-        $routeResult = $request->getAttribute('Zend\Expressive\Router\RouteResult');
-        $routeName = 'app::' . $routeResult->getMatchedRouteName();
+        $routeResult = $request->getAttribute(RouteResult::class);
+
+        $routeName = 'app::';
+        $routeName .= isset($routeResult) ? $routeResult->getMatchedRouteName() : "default-page";
 
         $request = $request->withAttribute('templateName', $routeName);
         if (isset($out)) {
