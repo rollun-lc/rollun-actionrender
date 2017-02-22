@@ -10,7 +10,7 @@ namespace rollun\actionrender\Comparator;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class PathRequestComparator
+class PathRequestComparator implements RequestComparatorInterface
 {
     public function __invoke(Request $request, $pattern)
     {

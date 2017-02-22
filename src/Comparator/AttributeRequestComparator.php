@@ -10,7 +10,7 @@ namespace rollun\actionrender\Comparator;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class AttributeRequestComparator
+class AttributeRequestComparator implements RequestComparatorInterface
 {
     protected $attributeKey ;
 
@@ -26,6 +26,6 @@ class AttributeRequestComparator
     public function __invoke(Request $request, $pattern)
     {
         $attribute = $request->getAttribute($this->attributeKey);
-        return preg_match($pattern, $attribute);
+        return strcmp($pattern, $attribute) === 0;
     }
 }

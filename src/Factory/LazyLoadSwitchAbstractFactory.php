@@ -10,6 +10,7 @@ namespace rollun\actionrender\Factory;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
+use rollun\actionrender\Comparator\RequestComparatorInterface;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\AbstractFactoryInterface;
@@ -56,6 +57,13 @@ class LazyLoadSwitchAbstractFactory implements AbstractFactoryInterface
         $lazyLoadFactory =
             function (Request $request, Response $response, callable $out = null) use ($factoryConfig, $container, $requestedName) {
                 $comparator = $container->get($factoryConfig[static::KEY_COMPARATOR_SERVICE]);
+                if (!is_a($comparator, RequestComparatorInterface::class, true)) {
+                    throw new ServiceNotCreatedException(
+                        $factoryConfig[static::KEY_COMPARATOR_SERVICE] .
+                        "is not instanceof " .
+                        RequestComparatorInterface::class
+                    );
+                }
                 foreach ($factoryConfig[static::KEY_MIDDLEWARES_SERVICE] as $pattern => $middlewareService) {
                     if ($comparator($request, $pattern)) {
                         if ($container->has($middlewareService)) {
