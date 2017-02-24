@@ -25,6 +25,8 @@ class LazyLoadSwitchAbstractFactory implements AbstractFactoryInterface
 
     const KEY_ATTRIBUTE_NAME = 'attributeName';
 
+    const DEFAULT_ATTRIBUTE_NAME = 'switchArray';
+
     /**
      * Can the factory create an instance for the service?
      *
@@ -58,6 +60,7 @@ class LazyLoadSwitchAbstractFactory implements AbstractFactoryInterface
             function (Request $request, Response $response, callable $out = null) use ($factoryConfig, $container, $requestedName) {
                 $isFound = false;
                 $attributeValues = $request->getAttribute($factoryConfig[static::KEY_ATTRIBUTE_NAME]);
+                $attributeValues = $attributeValues ?: $request->getAttribute(static::DEFAULT_ATTRIBUTE_NAME);
                 $middlewarePipe = new MiddlewarePipe();
                 if (is_null($attributeValues) || !is_array($attributeValues)) {
                     throw new ServiceNotCreatedException("Attribute '" . $factoryConfig[static::KEY_ATTRIBUTE_NAME] . "' values not valid.");
