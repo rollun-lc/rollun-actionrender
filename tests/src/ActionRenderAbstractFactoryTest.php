@@ -31,7 +31,7 @@ class ActionRenderAbstractFactoryTest extends \PHPUnit_Framework_TestCase
     public function testServiceNotCreatedException()
     {
         $config = [
-            ActionRenderAbstractFactory::KEY_AR_SERVICE => [
+            ActionRenderAbstractFactory::KEY_AR => [
                 'home-service' => [
                     ActionRenderAbstractFactory::KEY_AR_MIDDLEWARE => [
                         ActionRenderAbstractFactory::KEY_ACTION_MIDDLEWARE_SERVICE => 'Action',

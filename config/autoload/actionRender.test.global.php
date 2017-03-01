@@ -14,7 +14,7 @@ return [
             \rollun\actionrender\Example\Api\HelloAction::class => \rollun\actionrender\Example\Api\HelloAction::class
         ],
     ],
-    ActionRenderAbstractFactory::KEY_AR_SERVICE => [
+    ActionRenderAbstractFactory::KEY_AR => [
         'home-service' => [
             ActionRenderAbstractFactory::KEY_AR_MIDDLEWARE => [
                 ActionRenderAbstractFactory::KEY_ACTION_MIDDLEWARE_SERVICE =>
