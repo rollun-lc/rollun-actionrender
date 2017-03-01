@@ -10,12 +10,12 @@ namespace rollun\actionrender\Factory;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
-use rollun\actionrender\Comparator\RequestComparatorInterface;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\AbstractFactoryInterface;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Zend\Stratigility\MiddlewarePipe;
 
 class LazyLoadSwitchAbstractFactory implements AbstractFactoryInterface
 {
@@ -23,7 +23,9 @@ class LazyLoadSwitchAbstractFactory implements AbstractFactoryInterface
 
     const KEY_MIDDLEWARES_SERVICE = 'middlewares';
 
-    const KEY_COMPARATOR_SERVICE = 'comparatorService';
+    const KEY_ATTRIBUTE_NAME = 'attributeName';
+
+    const DEFAULT_ATTRIBUTE_NAME = 'switchArray';
 
     /**
      * Can the factory create an instance for the service?
@@ -56,25 +58,27 @@ class LazyLoadSwitchAbstractFactory implements AbstractFactoryInterface
         $factoryConfig = $config[static::KEY_LAZY_LOAD_SWITCH][$requestedName];
         $lazyLoadFactory =
             function (Request $request, Response $response, callable $out = null) use ($factoryConfig, $container, $requestedName) {
-                $comparator = $container->get($factoryConfig[static::KEY_COMPARATOR_SERVICE]);
-                if (!is_a($comparator, RequestComparatorInterface::class, true)) {
-                    throw new ServiceNotCreatedException(
-                        $factoryConfig[static::KEY_COMPARATOR_SERVICE] .
-                        "is not instanceof " .
-                        RequestComparatorInterface::class
-                    );
+                $isFound = false;
+                $attributeValues = $request->getAttribute($factoryConfig[static::KEY_ATTRIBUTE_NAME]);
+                $attributeValues = $attributeValues ?: $request->getAttribute(static::DEFAULT_ATTRIBUTE_NAME);
+                $middlewarePipe = new MiddlewarePipe();
+                if (is_null($attributeValues) || !is_array($attributeValues)) {
+                    throw new ServiceNotCreatedException("Attribute '" . $factoryConfig[static::KEY_ATTRIBUTE_NAME] . "' values not valid.");
                 }
-                foreach ($factoryConfig[static::KEY_MIDDLEWARES_SERVICE] as $pattern => $middlewareService) {
-                    if ($comparator($request, $pattern)) {
+                foreach ($factoryConfig[static::KEY_MIDDLEWARES_SERVICE] as $expectedAttributeValue => $middlewareService) {
+                    if (in_array($expectedAttributeValue, $attributeValues)) {
                         if ($container->has($middlewareService)) {
                             $middleware = $container->get($middlewareService);
-                            return $middleware($request, $response, $out);
+                            $middlewarePipe->pipe($middleware);
                         } else {
-                            throw new ServiceNotFoundException("Not found $middlewareService for $pattern pattern");
+                            throw new ServiceNotFoundException("Not found $middlewareService for $expectedAttributeValue expectedAttributeValue.");
                         }
                     }
                 }
-                throw new ServiceNotCreatedException("Not found middleware for request");
+                if ($isFound) {
+                    return $middlewarePipe($request, $response, $out);
+                }
+                throw new ServiceNotCreatedException("Not found middleware for request.");
             };
         return $lazyLoadFactory;
     }
