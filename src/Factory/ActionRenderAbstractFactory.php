@@ -18,7 +18,7 @@ use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 
 class ActionRenderAbstractFactory implements AbstractFactoryInterface
 {
-    const KEY_AR_SERVICE = 'ActionRenderService';
+    const KEY_AR = 'ActionRenderService';
 
     const KEY_AR_MIDDLEWARE = 'ARMiddleware';
 
@@ -39,8 +39,8 @@ class ActionRenderAbstractFactory implements AbstractFactoryInterface
     public function canCreate(ContainerInterface $container, $requestedName)
     {
         $config = $container->get('config');
-        if (isset($config[static::KEY_AR_SERVICE][$requestedName][static::KEY_AR_MIDDLEWARE])) {
-            $middleware = $config[static::KEY_AR_SERVICE][$requestedName][static::KEY_AR_MIDDLEWARE];
+        if (isset($config[static::KEY_AR][$requestedName][static::KEY_AR_MIDDLEWARE])) {
+            $middleware = $config[static::KEY_AR][$requestedName][static::KEY_AR_MIDDLEWARE];
             return (
                 is_array($middleware) &&
                 isset($middleware[static::KEY_ACTION_MIDDLEWARE_SERVICE]) &&
@@ -64,7 +64,7 @@ class ActionRenderAbstractFactory implements AbstractFactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $config = $container->get('config');
-        $middleware = $config[static::KEY_AR_SERVICE][$requestedName][static::KEY_AR_MIDDLEWARE];
+        $middleware = $config[static::KEY_AR][$requestedName][static::KEY_AR_MIDDLEWARE];
         $action = $middleware[static::KEY_ACTION_MIDDLEWARE_SERVICE];
         $render = $middleware[static::KEY_RENDER_MIDDLEWARE_SERVICE];
         $returner = isset($middleware[static::KEY_RETURNER_MIDDLEWARE_SERVICE]) ?
