@@ -20,6 +20,8 @@ class ResponseRendererAbstractFactory implements AbstractFactoryInterface
 {
     const KEY_RESPONSE_RENDERER = 'responseRenderer';
 
+    const KEY_ATTRIBUTE_RESPONSE_DATA = 'responseData';
+
     const KEY_ACCEPT_TYPE_PATTERN = 'acceptTypesPattern';
 
     /**

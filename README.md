@@ -13,6 +13,10 @@
 
 * [ActionRenderAbstractFactory](https://github.com/rollun-com/rollun-actionrender/blob/master/docs/ActionRenderAbstractFactory.md)
 
+* [LazyLoadDirectAbstractFactory](https://github.com/rollun-com/rollun-actionrender/blob/master/docs/LazyLoadDirectAbstractFactory.md)
+
+* [LazyLoadSwitchAbstractFactory](https://github.com/rollun-com/rollun-actionrender/blob/master/docs/LazyLoadSwitchAbstractFactory.md)
+
 * [MiddlewarePipeAbstractFactory](https://github.com/rollun-com/rollun-actionrender/blob/master/docs/MiddlewarePipeAbstractFactory.md)
 
 * [ResponseRendererAbstractFactory](https://github.com/rollun-com/rollun-actionrender/blob/master/docs/ResponseRendererAbstractFactory.md)
@@ -23,7 +27,7 @@
 
 Для более детального ознакомления обратитесь в [ActionRender QuickStart](https://github.com/rollun-com/rollun-actionrender/blob/master/docs/QuickStart.md)
 
-Цепочка Middleware поделенная на две логические части Action и Render.
+Цепочка Middleware поделенная на три логические части Action, Render, Returner.
 
 ## Последовательость работы ActionRender
 
