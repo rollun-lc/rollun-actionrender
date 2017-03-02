@@ -97,7 +97,7 @@ class SomeRenderMiddleware implements MiddlewareInterface
 Но если вам нужно использовать его в качестве аспекта, 
 вы можете указать в конфиге конкретный сервис который вернет Returner Middleware.
 
-Теперь останется только указать в конфиге наш Middleware-Service.
+Теперь останется только указать в конфиге наш ActionRenderPipe.
 ```php
      ActionRenderAbstractFactory::KEY_AR_SERVICE => [
         'home' => [
@@ -112,15 +112,19 @@ class SomeRenderMiddleware implements MiddlewareInterface
 ```
 > [Default Returner](../src/ReturnMiddleware.php)
 
-`'home'` - имя по которому будет создан данный **ActionRender Middleware**
+`'home'` - имя по которому будет создан данный **ActionRender Middleware**  
 `'SomeActionMiddleware'` и `'SomeRenderMiddleware'` имена сервисов по которым **SM** вернет соответствующе **Middleware**. 
 
 Так же, бывают ситуации когда мы должны получить какие то параметры из Request до выполения самого Action или Render.
 Для таких случаях предусмотрено что каждый из эих двух **Middleware** могут быть заменены на двумя **Middleware**
 
 * Для **Action**  
-    1) **ParamResolver** - выкусывает нужные параметры акшену из запроса и кладет их в атрибуты.  
-    2) **Action** -  выполняет действие и результат кладет в `responceData`.  
+    1) **ParamResolver** - выкусывает нужные параметры акшену из запроса и кладет их в атрибуты запроса .  
+    2) **Action** -  выполняет действие и результат кладет в аттребут под именем `responceData`.  
+
+Так же бывают случаи когда вам требуется создать ActionMiddleware относительно какого то параметра в запросе, 
+тогда соит обратить внимание на LazyLoadFactory.
+    
 * Соответсвенно для **Render**  
     1) **ParamResolver** - выкусывает нужные параметры вьюверу из запроса и кладет их в атрибуты.  
     2) **Render** -  выполняет отрисовку результата и кладет их в атрибуты.  
@@ -132,8 +136,8 @@ class SomeRenderMiddleware implements MiddlewareInterface
 * Каждый из **Middleware** может быть **Middleware**, **pipeLine** либо **LazyLoadFactory** (Которая вернет **Middleware**).
     > Пример [**LazyLoadFactory** -> ResponseRendererAbstractFactory](../src/ActionRender/Renderer/ResponseRendererAbstractFactory.php)
 
-* **LazyLoadFactory** не могут передавать какие то занчения в **Middleware** по средсву **Request**.
-Для этого стоит использовать либо параметры контейнера либо **ParamResolver Middleware**.
+* **LazyLoadFactory** не могут передавать какие то занчения в **Middleware** по средсву аттребутов в **Request**.
+Для этого стоит использовать либо параметры конструктора обьекта либо использовать PipeLine, а в них  указывать **ParamResolver Middleware**.
 
 ## Компоненты
 

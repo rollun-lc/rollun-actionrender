@@ -8,14 +8,14 @@
 
 use rollun\actionrender\Factory\MiddlewarePipeAbstractFactory;
 use rollun\actionrender\Factory\ActionRenderAbstractFactory;
-use rollun\actionrender\Renderer\ResponseRendererAbstractFactory;
+use rollun\actionrender\Renderer\LazyLoadResponseRendererAbstractFactory;
 
 return [
     'dependencies' => [
         'abstract_factories' => [
             MiddlewarePipeAbstractFactory::class,
             ActionRenderAbstractFactory::class,
-            ResponseRendererAbstractFactory::class
+            LazyLoadResponseRendererAbstractFactory::class
         ],
         'invokables' => [
             \rollun\actionrender\Renderer\Html\HtmlParamResolver::class =>
@@ -38,9 +38,9 @@ return [
             ]
         ]
     ],
-    ResponseRendererAbstractFactory::KEY_RESPONSE_RENDERER => [
+    LazyLoadResponseRendererAbstractFactory::KEY_RESPONSE_RENDERER => [
         'simpleHtmlJsonRenderer' => [
-            ResponseRendererAbstractFactory::KEY_ACCEPT_TYPE_PATTERN => [
+            LazyLoadResponseRendererAbstractFactory::KEY_ACCEPT_TYPE_PATTERN => [
                 //pattern => middleware-Service-Name
                 '/application\/json/' => \rollun\actionrender\Renderer\Json\JsonRendererAction::class,
                 '/text\/html/' => 'htmlReturner'

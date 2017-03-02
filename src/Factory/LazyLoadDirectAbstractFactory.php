@@ -17,25 +17,10 @@ use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 
-class LazyLoadDirectAbstractFactory implements AbstractFactoryInterface
+class LazyLoadDirectAbstractFactory extends AbstractLazyLoadAbstractFactory
 {
 
-    const KEY_LAZY_LOAD = 'lazyLoad';
-
     const KEY_DIRECT_FACTORY = 'directFactory';
-
-    /**
-     * Can the factory create an instance for the service?
-     *
-     * @param  ContainerInterface $container
-     * @param  string $requestedName
-     * @return bool
-     */
-    public function canCreate(ContainerInterface $container, $requestedName)
-    {
-        $config = $container->get('config');
-        return isset($config[static::KEY_LAZY_LOAD][$requestedName]);
-    }
 
     /**
      * Create middleware by DirectFactor.

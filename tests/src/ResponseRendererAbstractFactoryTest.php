@@ -9,13 +9,13 @@
 namespace rollun\test\actionrender;
 
 use Interop\Container\ContainerInterface;
-use rollun\actionrender\Renderer\ResponseRendererAbstractFactory;
+use rollun\actionrender\Renderer\LazyLoadResponseRendererAbstractFactory;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class ResponseRendererAbstractFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  ResponseRendererAbstractFactory */
+    /** @var  LazyLoadResponseRendererAbstractFactory */
     protected $object;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
@@ -24,7 +24,7 @@ class ResponseRendererAbstractFactoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->container = $this->getMock(ContainerInterface::class);
-        $this->object = new ResponseRendererAbstractFactory();
+        $this->object = new LazyLoadResponseRendererAbstractFactory();
     }
 
     /**
@@ -33,9 +33,9 @@ class ResponseRendererAbstractFactoryTest extends \PHPUnit_Framework_TestCase
     public function testServiceNotFoundException()
     {
         $config = [
-            ResponseRendererAbstractFactory::KEY_RESPONSE_RENDERER => [
+            LazyLoadResponseRendererAbstractFactory::KEY_RESPONSE_RENDERER => [
                 'simpleHtmlJsonRenderer' => [
-                    ResponseRendererAbstractFactory::KEY_ACCEPT_TYPE_PATTERN => [
+                    LazyLoadResponseRendererAbstractFactory::KEY_ACCEPT_TYPE_PATTERN => [
                         //pattern => middleware-Service-Name
                         '/application\/json/' => 'JsonRenderer',
                         '/text\/html/' => 'htmlReturner'
@@ -61,9 +61,9 @@ class ResponseRendererAbstractFactoryTest extends \PHPUnit_Framework_TestCase
     public function testServiceNotCreatedException()
     {
         $config = [
-            ResponseRendererAbstractFactory::KEY_RESPONSE_RENDERER => [
+            LazyLoadResponseRendererAbstractFactory::KEY_RESPONSE_RENDERER => [
                 'simpleHtmlJsonRenderer' => [
-                    ResponseRendererAbstractFactory::KEY_ACCEPT_TYPE_PATTERN => [
+                    LazyLoadResponseRendererAbstractFactory::KEY_ACCEPT_TYPE_PATTERN => [
                         //pattern => middleware-Service-Name
                         '/application\/json/' => 'JsonRenderer',
                         '/text\/html/' => 'htmlReturner'

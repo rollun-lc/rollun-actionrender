@@ -17,28 +17,13 @@ use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 use Zend\Stratigility\MiddlewarePipe;
 
-class LazyLoadSwitchAbstractFactory implements AbstractFactoryInterface
+class LazyLoadSwitchAbstractFactory extends AbstractLazyLoadAbstractFactory
 {
-    const KEY_LAZY_LOAD_SWITCH = 'lazyLoadSwitch';
-
     const KEY_MIDDLEWARES_SERVICE = 'middlewares';
 
     const KEY_ATTRIBUTE_NAME = 'attributeName';
 
     const DEFAULT_ATTRIBUTE_NAME = 'switchArray';
-
-    /**
-     * Can the factory create an instance for the service?
-     *
-     * @param  ContainerInterface $container
-     * @param  string $requestedName
-     * @return bool
-     */
-    public function canCreate(ContainerInterface $container, $requestedName)
-    {
-        $config = $container->get('config');
-        return isset($config[static::KEY_LAZY_LOAD_SWITCH][$requestedName]);
-    }
 
     /**
      * Create an object
