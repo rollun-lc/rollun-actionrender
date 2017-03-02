@@ -10,6 +10,7 @@ namespace rollun\actionrender\Renderer\Json;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use rollun\actionrender\Renderer\ResponseRendererAbstractFactory;
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\Stratigility\MiddlewareInterface;
 
@@ -43,7 +44,7 @@ class JsonRendererAction implements MiddlewareInterface
      */
     public function __invoke(Request $request, Response $response, callable $out = null)
     {
-        $data = $request->getAttribute('responseData');
+        $data = $request->getAttribute(ResponseRendererAbstractFactory::KEY_ATTRIBUTE_RESPONSE_DATA);
 
         /** @var Response $response */
         $response = $request->getAttribute(Response::class) ?: null;

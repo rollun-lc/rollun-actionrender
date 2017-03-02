@@ -15,7 +15,7 @@ use Zend\Stratigility\MiddlewareInterface;
 
 class HtmlParamResolver implements MiddlewareInterface
 {
-
+    const KEY_ATTRIBUTE_TEMPLATE_NAME = 'templateName';
     /**
      * Process an incoming request and/or response.
      *
@@ -45,10 +45,13 @@ class HtmlParamResolver implements MiddlewareInterface
     {
         $routeResult = $request->getAttribute(RouteResult::class);
 
-        $routeName = 'app::';
-        $routeName .= isset($routeResult) ? $routeResult->getMatchedRouteName() : "default-page";
+        if($request->getAttribute(static::KEY_ATTRIBUTE_TEMPLATE_NAME) != null){
+            $routeName = 'app::';
+            $routeName .= isset($routeResult) ? $routeResult->getMatchedRouteName() : "default-page";
+            $request = $request->withAttribute(static::KEY_ATTRIBUTE_TEMPLATE_NAME, $routeName);
+        };
 
-        $request = $request->withAttribute('templateName', $routeName);
+
         if (isset($out)) {
             return $out($request, $response);
         }

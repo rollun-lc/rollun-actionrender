@@ -4,7 +4,7 @@
 
 ### Обычная практика
 
-Пускай у нас есть обычный Middleware который чот то делает и возвращает результат.
+Пускай у нас есть обычный Middleware который выполняет какое-то действие и возвращает результат.
 
 ```php
 class SomeMiddleware implements MiddlewareInterface 
@@ -22,9 +22,9 @@ class SomeMiddleware implements MiddlewareInterface
 }
 ```
 
-Как мы можем увидеть наш SomeMiddleware разделен на 2 логических блока Action и Render.
+Как мы можем увидеть наш SomeMiddleware разделен на три логических блока Action, Render, Return.
 В одном мы производим какие то дейсвия для получения данных,
- в другом мы эти данные переводим в представляение.
+ в другом мы эти данные переводим в представляение, а в третим обьеденяем в ответ и возвращаем пользователю.
 И ссылаясь на принцип MVC тут четко видна граница Controller и View.
 Так что было бы правильно разделить их.
 Как мы можем это сделать ? 
@@ -79,12 +79,12 @@ class SomeRenderMiddleware implements MiddlewareInterface
 }
 ```
 
-Тпереь нам останеться создать фабрику в которой мы создать pipeLine и положим туда эти 2 Middleware.
-В общем случае мы можем представить любое действие как последовательность двух Middleware - Action и Render.
+Тпереь нам останеться создать фабрику в которой мы создать pipeLine и положим туда эти три Middleware.
+В общем случае мы можем представить любое действие как последовательность трех Middleware - Action, Render, Returner.
 
 ## ActionRender
 
-Данная библиотека позволяет следовать данной идеалогии разделение действия на два Middleware.
+Данная библиотека позволяет следовать данной идеалогии разделение действия на три Middleware.
 
 1) **Action** - Выполняет определенное действие. Результат должен пометсить в атребут запроста `responseData`
 
@@ -92,11 +92,10 @@ class SomeRenderMiddleware implements MiddlewareInterface
 
 3) **Returner** - возвращает результат. 
 
-Так же вам не нежно заботится о **Returner** та как по умолчанию 
-используеться самая простая реализация которая просто возвращает резаультат.
+Вам так же не нужно заботится о **Returner**, так как по умолчанию 
+используеться самая простая реализация, которая просто возвращает резаультат.
 Но если вам нужно использовать его в качестве аспекта, 
 вы можете указать в конфиге конкретный сервис который вернет Returner Middleware.
-
 
 Теперь останется только указать в конфиге наш Middleware-Service.
 ```php
@@ -126,6 +125,8 @@ class SomeRenderMiddleware implements MiddlewareInterface
     1) **ParamResolver** - выкусывает нужные параметры вьюверу из запроса и кладет их в атрибуты.  
     2) **Render** -  выполняет отрисовку результата и кладет их в атрибуты.  
     
+> Для **RenderMiddleware** советуем обратить внимание на [ResponseRendererAbstractFactory](./ResponseRendererAbstractFactory.md). 
+    
 ## Замечания
 
 * Каждый из **Middleware** может быть **Middleware**, **pipeLine** либо **LazyLoadFactory** (Которая вернет **Middleware**).
@@ -139,5 +140,13 @@ class SomeRenderMiddleware implements MiddlewareInterface
 * [ActionRenderAbstractFactory](./ActionRenderAbstractFactory.md) - Фабрика которая создает ActionRender.
 
 * [MiddlewarePipeAbstractFactory](./MiddlewarePipeAbstractFactory.md) - Вспомогательная абстрактная фабрика для создания middlewarePipeLine.
+
+* [ResponseRendererAbstractFactory](./ResponseRendererAbstractFactory.md) - Вспомогательная абстрактная LazyLoad фабрика для прорисовки данных.
+
+* [LazyLoadDirectAbstractFactory](./LazyLoadDirectAbstractFactory.md) - Вспомогательная абстрактная LazyLoad фабрика для создания middleware по имени переданном в запросе и помощью DirectFactory.
+
+* [LazyLoadSwitchAbstractFactory](./LazyLoadSwitchAbstractFactory.md) - Вспомогательная абстрактная LazyLoad фабрика для динамического создания middlewarePipe.
+
+* [ResponseRendererAbstractFactory](./ResponseRendererAbstractFactory.md) - Вспомогательная абстрактная LazyLoad фабрика для прорисовки данных.
 
 * [ResponseRendererAbstractFactory](./ResponseRendererAbstractFactory.md) - Вспомогательная абстрактная LazyLoad фабрика для прорисовки данных.
