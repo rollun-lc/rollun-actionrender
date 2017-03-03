@@ -6,7 +6,7 @@
  * Time: 17:52
  */
 
-namespace rollun\actionrender\Renderer;
+namespace rollun\actionrender\Factory;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -16,13 +16,25 @@ use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 
-class ResponseRendererAbstractFactory implements AbstractFactoryInterface
+class LazyLoadResponseRendererAbstractFactory implements AbstractFactoryInterface
 {
-    const KEY_RESPONSE_RENDERER = 'responseRenderer';
-
     const KEY_ATTRIBUTE_RESPONSE_DATA = 'responseData';
 
     const KEY_ACCEPT_TYPE_PATTERN = 'acceptTypesPattern';
+
+    const KEY = 'lazyLoad';
+    /**
+     * Can the factory create an instance for the service?
+     *
+     * @param  ContainerInterface $container
+     * @param  string $requestedName
+     * @return bool
+     */
+    public function canCreate(ContainerInterface $container, $requestedName)
+    {
+        $config = $container->get('config');
+        return isset($config[static::KEY][$requestedName]);
+    }
 
     /**
      * Create an object
@@ -38,7 +50,7 @@ class ResponseRendererAbstractFactory implements AbstractFactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $container->get('config')[static::KEY_RESPONSE_RENDERER][$requestedName];
+        $config = $container->get('config')[static::KEY][$requestedName];
 
         $dynamicResponseReturner =
             function (Request $request, Response $response, callable $next = null) use ($container, $config) {
@@ -58,21 +70,5 @@ class ResponseRendererAbstractFactory implements AbstractFactoryInterface
             };
 
         return $dynamicResponseReturner;
-    }
-
-    /**
-     * Can the factory create an instance for the service?
-     *
-     * @param  ContainerInterface $container
-     * @param  string $requestedName
-     * @return bool
-     */
-    public function canCreate(ContainerInterface $container, $requestedName)
-    {
-        $config = $container->get('config');
-        if (isset($config[static::KEY_RESPONSE_RENDERER][$requestedName][static::KEY_ACCEPT_TYPE_PATTERN])) {
-            return true;
-        }
-        return false;
     }
 }

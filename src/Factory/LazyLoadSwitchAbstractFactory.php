@@ -19,14 +19,13 @@ use Zend\Stratigility\MiddlewarePipe;
 
 class LazyLoadSwitchAbstractFactory implements AbstractFactoryInterface
 {
-    const KEY_LAZY_LOAD_SWITCH = 'lazyLoadSwitch';
-
     const KEY_MIDDLEWARES_SERVICE = 'middlewares';
 
     const KEY_ATTRIBUTE_NAME = 'attributeName';
 
     const DEFAULT_ATTRIBUTE_NAME = 'switchArray';
 
+    const KEY = 'lazyLoad';
     /**
      * Can the factory create an instance for the service?
      *
@@ -37,9 +36,8 @@ class LazyLoadSwitchAbstractFactory implements AbstractFactoryInterface
     public function canCreate(ContainerInterface $container, $requestedName)
     {
         $config = $container->get('config');
-        return isset($config[static::KEY_LAZY_LOAD_SWITCH][$requestedName]);
+        return isset($config[static::KEY][$requestedName]);
     }
-
     /**
      * Create an object
      *
@@ -55,7 +53,7 @@ class LazyLoadSwitchAbstractFactory implements AbstractFactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $config = $container->get('config');
-        $factoryConfig = $config[static::KEY_LAZY_LOAD_SWITCH][$requestedName];
+        $factoryConfig = $config[static::KEY][$requestedName];
         $lazyLoadFactory =
             function (Request $request, Response $response, callable $out = null) use ($factoryConfig, $container, $requestedName) {
                 $isFound = false;

@@ -6,9 +6,9 @@
  Настраивается с помощью конфига 
  Пример:
 ```php
- ResponseRendererAbstractFactory::KEY_RESPONSE_RENDERER => [
+ LazyLoadResponseRendererAbstractFactory::KEY => [
     'simpleHtmlJsonRenderer' => [
-        ResponseRendererAbstractFactory::KEY_ACCEPT_TYPE_PATTERN => [
+        LazyLoadResponseRendererAbstractFactory::KEY_ACCEPT_TYPE_PATTERN => [
             //pattern => middleware
             '/application\/json/' => \rollun\utils\ActionRender\Renderer\Json\JsonRendererAction::class,
             '/text\/html/' => 'htmlReturner'
@@ -17,10 +17,10 @@
  ],
 ```
 
-Ключ массива `ResponseRendererAbstractFactory::KEY_RESPONSE_RENDERER` указыват на имя сервиса по которому 
+Ключ массива `LazyLoadResponseRendererAbstractFactory::KEY_RESPONSE_RENDERER` указыват на имя сервиса по которому 
 сможем получить **lazyLoad** звгрузку терубемых конфигураций.
 
-А в самой конфигурации в массиве `ResponseRendererAbstractFactory::KEY_ACCEPT_TYPE_PATTERN` мы ключем указываем паттерн определения **accept**, 
+А в самой конфигурации в массиве `LazyLoadResponseRendererAbstractFactory::KEY_ACCEPT_TYPE_PATTERN` мы ключем указываем паттерн определения **accept**, 
 а занчением имя сервиса по которому из **SM** сможем получить **Middleware**.
 > В данном случае конфигурация называется `'simpleHtmlJsonRenderer'`
 

@@ -20,10 +20,9 @@ use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 class LazyLoadDirectAbstractFactory implements AbstractFactoryInterface
 {
 
-    const KEY_LAZY_LOAD = 'lazyLoad';
-
     const KEY_DIRECT_FACTORY = 'directFactory';
 
+    const KEY = 'lazyLoad';
     /**
      * Can the factory create an instance for the service?
      *
@@ -34,7 +33,7 @@ class LazyLoadDirectAbstractFactory implements AbstractFactoryInterface
     public function canCreate(ContainerInterface $container, $requestedName)
     {
         $config = $container->get('config');
-        return isset($config[static::KEY_LAZY_LOAD][$requestedName]);
+        return isset($config[static::KEY][$requestedName]);
     }
 
     /**
@@ -52,7 +51,7 @@ class LazyLoadDirectAbstractFactory implements AbstractFactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $config = $container->get('config');
-        $factoryConfig = $config[static::KEY_LAZY_LOAD][$requestedName];
+        $factoryConfig = $config[static::KEY][$requestedName];
         if (!isset($factoryConfig[static::KEY_DIRECT_FACTORY]) ||
             empty($factoryConfig[static::KEY_DIRECT_FACTORY])
         ) {

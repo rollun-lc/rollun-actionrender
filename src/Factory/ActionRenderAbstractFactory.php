@@ -18,16 +18,13 @@ use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 
 class ActionRenderAbstractFactory implements AbstractFactoryInterface
 {
-    const KEY_AR = 'ActionRenderService';
-
-    const KEY_AR_MIDDLEWARE = 'ARMiddleware';
+    const KEY = 'ActionRenderService';
 
     const KEY_ACTION_MIDDLEWARE_SERVICE = 'ActionMiddlewareService';
 
     const KEY_RENDER_MIDDLEWARE_SERVICE = 'RenderMiddlewareService';
 
     const KEY_RETURNER_MIDDLEWARE_SERVICE = 'ReturnerMiddlewareService';
-
 
     /**
      * Can the factory create an instance for the service?
@@ -39,12 +36,12 @@ class ActionRenderAbstractFactory implements AbstractFactoryInterface
     public function canCreate(ContainerInterface $container, $requestedName)
     {
         $config = $container->get('config');
-        if (isset($config[static::KEY_AR][$requestedName][static::KEY_AR_MIDDLEWARE])) {
-            $middleware = $config[static::KEY_AR][$requestedName][static::KEY_AR_MIDDLEWARE];
+        if (isset($config[static::KEY][$requestedName])) {
+            $middleware = $config[static::KEY][$requestedName];
             return (
-                is_array($middleware) &&
                 isset($middleware[static::KEY_ACTION_MIDDLEWARE_SERVICE]) &&
-                isset($middleware[static::KEY_RENDER_MIDDLEWARE_SERVICE]));
+                isset($middleware[static::KEY_RENDER_MIDDLEWARE_SERVICE])
+            );
         }
         return false;
     }
@@ -64,11 +61,11 @@ class ActionRenderAbstractFactory implements AbstractFactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $config = $container->get('config');
-        $middleware = $config[static::KEY_AR][$requestedName][static::KEY_AR_MIDDLEWARE];
-        $action = $middleware[static::KEY_ACTION_MIDDLEWARE_SERVICE];
-        $render = $middleware[static::KEY_RENDER_MIDDLEWARE_SERVICE];
-        $returner = isset($middleware[static::KEY_RETURNER_MIDDLEWARE_SERVICE]) ?
-            $middleware[static::KEY_RETURNER_MIDDLEWARE_SERVICE] : null;
+        $factoryConfig = $config[static::KEY][$requestedName];
+        $action = $factoryConfig[static::KEY_ACTION_MIDDLEWARE_SERVICE];
+        $render = $factoryConfig[static::KEY_RENDER_MIDDLEWARE_SERVICE];
+        $returner = isset($factoryConfig[static::KEY_RETURNER_MIDDLEWARE_SERVICE]) ?
+            $factoryConfig[static::KEY_RETURNER_MIDDLEWARE_SERVICE] : null;
 
         if ($container->has($action) && $container->has($render)) {
             if (!is_null($returner)) {

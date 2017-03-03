@@ -4,7 +4,7 @@
 Передает ей в качестве параматра `$requestedName`, значение атребута `resourceName`.
 
 ```php
-    LazyLoadDirectAbstractFactory::KEY_LAZY_LOAD => [
+    LazyLoadDirectAbstractFactory::KEY => [
         'webhookLazyLoad' => [
             LazyLoadDirectAbstractFactory::KEY_DIRECT_FACTORY =>
                 \rollun\callback\Middleware\Factory\InterruptorDirectFactory::class

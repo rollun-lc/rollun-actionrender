@@ -21,12 +21,16 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class MiddlewarePipeAbstractFactory implements AbstractFactoryInterface
 {
 
-    const KEY_AMP = 'MiddlewarePipeAbstract';
-
-    protected $middlewares;
+    const KEY = 'MiddlewarePipeAbstract';
 
     const KEY_MIDDLEWARES = 'middlewares';
 
+    protected $middlewares;
+
+    /**
+     * MiddlewarePipeAbstractFactory constructor.
+     * @param array $middlewares
+     */
     public function __construct(array $middlewares = [])
     {
         $this->middlewares = $middlewares;
@@ -44,7 +48,7 @@ class MiddlewarePipeAbstractFactory implements AbstractFactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $config = $container->get('config');
-        $middlewares = $config[static::KEY_AMP][$requestedName][static::KEY_MIDDLEWARES];
+        $middlewares = $config[static::KEY][$requestedName][static::KEY_MIDDLEWARES];
         foreach ($middlewares as $key => $middleware) {
             if ($container->has($middleware)) {
                 $this->middlewares[$key] = $container->get($middleware);
@@ -67,7 +71,7 @@ class MiddlewarePipeAbstractFactory implements AbstractFactoryInterface
     public function canCreate(ContainerInterface $container, $requestedName)
     {
         $config = $container->get('config');
-        if (isset($config[static::KEY_AMP][$requestedName][static::KEY_MIDDLEWARES])) {
+        if (isset($config[static::KEY][$requestedName][static::KEY_MIDDLEWARES])) {
             return true;
         }
         return false;

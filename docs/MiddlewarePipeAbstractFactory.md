@@ -6,9 +6,9 @@
 
 Пример:
 ```php
-    MiddlewarePipeAbstractFactory::KEY_AMP => [
+    MiddlewarePipeAbstractFactory::KEY => [
         'htmlReturner' => [
-            'middlewares' => [
+            MiddlewarePipeAbstractFactory::KEY_MIDDLEWARES => [
                 'HtmlParamResolver'
                 'HtmlRendererAction'
             ]

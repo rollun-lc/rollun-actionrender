@@ -8,14 +8,14 @@
 
 use rollun\actionrender\Factory\MiddlewarePipeAbstractFactory;
 use rollun\actionrender\Factory\ActionRenderAbstractFactory;
-use rollun\actionrender\Renderer\ResponseRendererAbstractFactory;
+use rollun\actionrender\Factory\LazyLoadResponseRendererAbstractFactory;
 
 return [
     'dependencies' => [
         'abstract_factories' => [
             MiddlewarePipeAbstractFactory::class,
             ActionRenderAbstractFactory::class,
-            ResponseRendererAbstractFactory::class
+            LazyLoadResponseRendererAbstractFactory::class
         ],
         'invokables' => [
             \rollun\actionrender\Renderer\Html\HtmlParamResolver::class =>
@@ -30,29 +30,27 @@ return [
                 \rollun\actionrender\Renderer\Html\HtmlRendererFactory::class
         ],
     ],
-    MiddlewarePipeAbstractFactory::KEY_AMP => [
+    MiddlewarePipeAbstractFactory::KEY => [
         'htmlReturner' => [
-            'middlewares' => [
+            MiddlewarePipeAbstractFactory::KEY_MIDDLEWARES => [
                 \rollun\actionrender\Renderer\Html\HtmlParamResolver::class,
                 \rollun\actionrender\Renderer\Html\HtmlRendererAction::class
             ]
         ]
     ],
-    ResponseRendererAbstractFactory::KEY_RESPONSE_RENDERER => [
+    LazyLoadResponseRendererAbstractFactory::KEY => [
         'simpleHtmlJsonRenderer' => [
-            ResponseRendererAbstractFactory::KEY_ACCEPT_TYPE_PATTERN => [
+            LazyLoadResponseRendererAbstractFactory::KEY_ACCEPT_TYPE_PATTERN => [
                 //pattern => middleware-Service-Name
                 '/application\/json/' => \rollun\actionrender\Renderer\Json\JsonRendererAction::class,
                 '/text\/html/' => 'htmlReturner'
             ]
         ]
     ],
-    ActionRenderAbstractFactory::KEY_AR => [
+    ActionRenderAbstractFactory::KEY => [
         /*'home' => [
-            ActionRenderAbstractFactory::KEY_AR_MIDDLEWARE => [
                 ActionRenderAbstractFactory::KEY_ACTION_MIDDLEWARE_SERVICE => '',
                 ActionRenderAbstractFactory::KEY_RENDER_MIDDLEWARE_SERVICE => 'simpleHtmlJsonRenderer'
-            ]
         ],*/
     ]
 ];
