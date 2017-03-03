@@ -99,14 +99,12 @@ class SomeRenderMiddleware implements MiddlewareInterface
 
 Теперь останется только указать в конфиге наш ActionRenderPipe.
 ```php
-     ActionRenderAbstractFactory::KEY_AR_SERVICE => [
+     ActionRenderAbstractFactory::KEY => [
         'home' => [
-            ActionRenderAbstractFactory::KEY_AR_MIDDLEWARE => [
                 ActionRenderAbstractFactory::KEY_ACTION_MIDDLEWARE_SERVICE => 'SomeActionMiddleware',
                 ActionRenderAbstractFactory::KEY_RENDER_MIDDLEWARE_SERVICE => 'SomeRenderMiddleware'
                 // Не обязательно указывать так как будет использовать Returner по умолчанию.
                 //ActionRenderAbstractFactory::KEY_RENDER_MIDDLEWARE_SERVICE => 'SomeReturnerrMiddleware'
-            ]
         ]
      ]
 ```
@@ -129,12 +127,12 @@ class SomeRenderMiddleware implements MiddlewareInterface
     1) **ParamResolver** - выкусывает нужные параметры вьюверу из запроса и кладет их в атрибуты.  
     2) **Render** -  выполняет отрисовку результата и кладет их в атрибуты.  
     
-> Для **RenderMiddleware** советуем обратить внимание на [ResponseRendererAbstractFactory](./ResponseRendererAbstractFactory.md). 
+> Для **RenderMiddleware** советуем обратить внимание на [LazyLoadResponseRendererAbstractFactory](./LazyLoadResponseRendererAbstractFactory.md). 
     
 ## Замечания
 
 * Каждый из **Middleware** может быть **Middleware**, **pipeLine** либо **LazyLoadFactory** (Которая вернет **Middleware**).
-    > Пример [**LazyLoadFactory** -> ResponseRendererAbstractFactory](../src/ActionRender/Renderer/ResponseRendererAbstractFactory.php)
+    > Пример [**LazyLoadFactory** -> LazyLoadResponseRendererAbstractFactory](../src/ActionRender/Factory/LazyLoadResponseRendererAbstractFactory.php)
 
 * **LazyLoadFactory** не могут передавать какие то занчения в **Middleware** по средсву аттребутов в **Request**.
 Для этого стоит использовать либо параметры конструктора обьекта либо использовать PipeLine, а в них  указывать **ParamResolver Middleware**.
@@ -145,12 +143,8 @@ class SomeRenderMiddleware implements MiddlewareInterface
 
 * [MiddlewarePipeAbstractFactory](./MiddlewarePipeAbstractFactory.md) - Вспомогательная абстрактная фабрика для создания middlewarePipeLine.
 
-* [ResponseRendererAbstractFactory](./ResponseRendererAbstractFactory.md) - Вспомогательная абстрактная LazyLoad фабрика для прорисовки данных.
+* [LazyLoadResponseRendererAbstractFactory](./LazyLoadResponseRendererAbstractFactory.md) - Вспомогательная абстрактная **LazyLoad** фабрика которая относительно ожидаемого типа ответа(Accept in request Header), достанет по имени сервиса **Middleware** из **SM** и передаст ему управление.
 
 * [LazyLoadDirectAbstractFactory](./LazyLoadDirectAbstractFactory.md) - Вспомогательная абстрактная LazyLoad фабрика для создания middleware по имени переданном в запросе и помощью DirectFactory.
 
 * [LazyLoadSwitchAbstractFactory](./LazyLoadSwitchAbstractFactory.md) - Вспомогательная абстрактная LazyLoad фабрика для динамического создания middlewarePipe.
-
-* [ResponseRendererAbstractFactory](./ResponseRendererAbstractFactory.md) - Вспомогательная абстрактная LazyLoad фабрика для прорисовки данных.
-
-* [ResponseRendererAbstractFactory](./ResponseRendererAbstractFactory.md) - Вспомогательная абстрактная LazyLoad фабрика для прорисовки данных.

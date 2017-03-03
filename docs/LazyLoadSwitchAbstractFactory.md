@@ -7,7 +7,7 @@
 Рассмотрим конфиг.
 
 ```php
-    LazyLoadSwitchAbstractFactory::LAZY_LOAD_SWITCH => [
+    LazyLoadSwitchAbstractFactory::KEY => [
         'testSwitch' => [
             LazyLoadSwitchAbstractFactory::KEY_ATTRIBUTE_NAME => "testArg", //not required
             LazyLoadSwitchAbstractFactory::KEY_MIDDLEWARES_SERVICE => [

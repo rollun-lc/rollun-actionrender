@@ -5,13 +5,11 @@
 Значение задаеться в конфиге
 
 ```php
-     ActionRenderAbstractFactory::KEY_AR_SERVICE => [
+     ActionRenderAbstractFactory::KEY => [
         'home' => [
-            ActionRenderAbstractFactory::KEY_AR_MIDDLEWARE => [
                 ActionRenderAbstractFactory::KEY_ACTION_MIDDLEWARE_SERVICE => 'Action',
                 ActionRenderAbstractFactory::KEY_RENDER_MIDDLEWARE_SERVICE => 'Render'
                 ActionRenderAbstractFactory::KEY_RETURNER_MIDDLEWARE_SERVICE => 'Returner' //not require
-            ]
         ]
      ]
 ```

@@ -32,7 +32,7 @@ return [
     ],
     MiddlewarePipeAbstractFactory::KEY => [
         'htmlReturner' => [
-            'middlewares' => [
+            MiddlewarePipeAbstractFactory::KEY_MIDDLEWARES => [
                 \rollun\actionrender\Renderer\Html\HtmlParamResolver::class,
                 \rollun\actionrender\Renderer\Html\HtmlRendererAction::class
             ]
