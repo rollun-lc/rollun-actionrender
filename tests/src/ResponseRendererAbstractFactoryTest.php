@@ -9,7 +9,7 @@
 namespace rollun\test\actionrender;
 
 use Interop\Container\ContainerInterface;
-use rollun\actionrender\Renderer\LazyLoadResponseRendererAbstractFactory;
+use rollun\actionrender\Factory\LazyLoadResponseRendererAbstractFactory;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -33,7 +33,7 @@ class ResponseRendererAbstractFactoryTest extends \PHPUnit_Framework_TestCase
     public function testServiceNotFoundException()
     {
         $config = [
-            LazyLoadResponseRendererAbstractFactory::KEY_RESPONSE_RENDERER => [
+            LazyLoadResponseRendererAbstractFactory::KEY => [
                 'simpleHtmlJsonRenderer' => [
                     LazyLoadResponseRendererAbstractFactory::KEY_ACCEPT_TYPE_PATTERN => [
                         //pattern => middleware-Service-Name
@@ -61,7 +61,7 @@ class ResponseRendererAbstractFactoryTest extends \PHPUnit_Framework_TestCase
     public function testServiceNotCreatedException()
     {
         $config = [
-            LazyLoadResponseRendererAbstractFactory::KEY_RESPONSE_RENDERER => [
+            LazyLoadResponseRendererAbstractFactory::KEY => [
                 'simpleHtmlJsonRenderer' => [
                     LazyLoadResponseRendererAbstractFactory::KEY_ACCEPT_TYPE_PATTERN => [
                         //pattern => middleware-Service-Name

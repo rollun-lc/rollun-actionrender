@@ -8,7 +8,7 @@
 
 use rollun\actionrender\Factory\MiddlewarePipeAbstractFactory;
 use rollun\actionrender\Factory\ActionRenderAbstractFactory;
-use rollun\actionrender\Renderer\LazyLoadResponseRendererAbstractFactory;
+use rollun\actionrender\Factory\LazyLoadResponseRendererAbstractFactory;
 
 return [
     'dependencies' => [
@@ -30,7 +30,7 @@ return [
                 \rollun\actionrender\Renderer\Html\HtmlRendererFactory::class
         ],
     ],
-    MiddlewarePipeAbstractFactory::KEY_AMP => [
+    MiddlewarePipeAbstractFactory::KEY => [
         'htmlReturner' => [
             'middlewares' => [
                 \rollun\actionrender\Renderer\Html\HtmlParamResolver::class,
@@ -38,7 +38,7 @@ return [
             ]
         ]
     ],
-    LazyLoadResponseRendererAbstractFactory::KEY_RESPONSE_RENDERER => [
+    LazyLoadResponseRendererAbstractFactory::KEY => [
         'simpleHtmlJsonRenderer' => [
             LazyLoadResponseRendererAbstractFactory::KEY_ACCEPT_TYPE_PATTERN => [
                 //pattern => middleware-Service-Name
@@ -47,12 +47,10 @@ return [
             ]
         ]
     ],
-    ActionRenderAbstractFactory::KEY_AR => [
+    ActionRenderAbstractFactory::KEY => [
         /*'home' => [
-            ActionRenderAbstractFactory::KEY_AR_MIDDLEWARE => [
                 ActionRenderAbstractFactory::KEY_ACTION_MIDDLEWARE_SERVICE => '',
                 ActionRenderAbstractFactory::KEY_RENDER_MIDDLEWARE_SERVICE => 'simpleHtmlJsonRenderer'
-            ]
         ],*/
     ]
 ];

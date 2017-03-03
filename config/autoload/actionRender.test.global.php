@@ -14,13 +14,11 @@ return [
             \rollun\actionrender\Example\Api\HelloAction::class => \rollun\actionrender\Example\Api\HelloAction::class
         ],
     ],
-    ActionRenderAbstractFactory::KEY_AR => [
+    ActionRenderAbstractFactory::KEY => [
         'home-service' => [
-            ActionRenderAbstractFactory::KEY_AR_MIDDLEWARE => [
-                ActionRenderAbstractFactory::KEY_ACTION_MIDDLEWARE_SERVICE =>
-                    \rollun\actionrender\Example\Api\HelloAction::class,
-                ActionRenderAbstractFactory::KEY_RENDER_MIDDLEWARE_SERVICE => 'simpleHtmlJsonRenderer'
-            ]
+            ActionRenderAbstractFactory::KEY_ACTION_MIDDLEWARE_SERVICE =>
+                \rollun\actionrender\Example\Api\HelloAction::class,
+            ActionRenderAbstractFactory::KEY_RENDER_MIDDLEWARE_SERVICE => 'simpleHtmlJsonRenderer'
         ],
     ],
 

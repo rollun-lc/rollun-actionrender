@@ -58,7 +58,7 @@ class LazyLoadSwitchAbstractFactoryTest extends \PHPUnit_Framework_TestCase
     public function testLazyLoadSwitchAbstractFactory()
     {
         $config = [
-            LazyLoadSwitchAbstractFactory::LAZY_LOAD_SWITCH => [
+            LazyLoadSwitchAbstractFactory::KEY => [
                 'testSwitch' => [
                     LazyLoadSwitchAbstractFactory::KEY_ATTRIBUTE_NAME => "testArg",
                     LazyLoadSwitchAbstractFactory::KEY_MIDDLEWARES_SERVICE => [
@@ -108,7 +108,7 @@ class LazyLoadSwitchAbstractFactoryTest extends \PHPUnit_Framework_TestCase
     public function testServiceNotCreatedExceptionInvalidAttribute()
     {
         $config = [
-            LazyLoadSwitchAbstractFactory::LAZY_LOAD_SWITCH => [
+            LazyLoadSwitchAbstractFactory::KEY => [
                 'testSwitch' => [
                     LazyLoadSwitchAbstractFactory::KEY_ATTRIBUTE_NAME => "testArg",
                     LazyLoadSwitchAbstractFactory::KEY_MIDDLEWARES_SERVICE => [
@@ -145,7 +145,7 @@ class LazyLoadSwitchAbstractFactoryTest extends \PHPUnit_Framework_TestCase
     public function testServiceNotCreatedExceptionNotSelected()
     {
         $config = [
-            LazyLoadSwitchAbstractFactory::LAZY_LOAD_SWITCH => [
+            LazyLoadSwitchAbstractFactory::KEY => [
                 'testSwitch' => [
                     LazyLoadSwitchAbstractFactory::KEY_ATTRIBUTE_NAME => "testArg",
                     LazyLoadSwitchAbstractFactory::KEY_MIDDLEWARES_SERVICE => [
@@ -190,7 +190,7 @@ class LazyLoadSwitchAbstractFactoryTest extends \PHPUnit_Framework_TestCase
     public function testServiceNotFoundExceptionNotFoundMiddleware()
     {
         $config = [
-            LazyLoadSwitchAbstractFactory::LAZY_LOAD_SWITCH => [
+            LazyLoadSwitchAbstractFactory::KEY => [
                 'testSwitch' => [
                     LazyLoadSwitchAbstractFactory::KEY_ATTRIBUTE_NAME => "testArg",
                     LazyLoadSwitchAbstractFactory::KEY_MIDDLEWARES_SERVICE => [

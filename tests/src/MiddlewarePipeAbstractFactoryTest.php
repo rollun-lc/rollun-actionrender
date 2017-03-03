@@ -32,9 +32,9 @@ class MiddlewarePipeAbstractFactoryTest extends \PHPUnit_Framework_TestCase
     public function testServiceNotFoundException()
     {
         $config = [
-            MiddlewarePipeAbstractFactory::KEY_AMP => [
+            MiddlewarePipeAbstractFactory::KEY => [
                 'htmlReturner' => [
-                    'middlewares' => [
+                    MiddlewarePipeAbstractFactory::KEY_MIDDLEWARES => [
                         'HtmlParamResolver',
                         'HtmlRendererAction'
                     ]
