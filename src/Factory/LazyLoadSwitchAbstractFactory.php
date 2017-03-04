@@ -21,11 +21,11 @@ class LazyLoadSwitchAbstractFactory implements AbstractFactoryInterface
 {
     const KEY_MIDDLEWARES_SERVICE = 'middlewares';
 
-    const KEY_ATTRIBUTE_NAME = 'attributeName';
+    const KEY_ATTRIBUTE_NAME = 'attribute_name';
 
-    const DEFAULT_ATTRIBUTE_NAME = 'switchArray';
+    const DEFAULT_ATTRIBUTE_NAME = 'switch_array';
 
-    const KEY = 'lazyLoad';
+    const KEY = 'lazy_load_switch';
     /**
      * Can the factory create an instance for the service?
      *
