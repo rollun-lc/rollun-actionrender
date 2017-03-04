@@ -21,7 +21,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class MiddlewarePipeAbstractFactory implements AbstractFactoryInterface
 {
 
-    const KEY = 'MiddlewarePipeAbstract';
+    const KEY = 'middleware_pipe_abstract';
 
     const KEY_MIDDLEWARES = 'middlewares';
 

@@ -20,9 +20,9 @@ use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 class LazyLoadDirectAbstractFactory implements AbstractFactoryInterface
 {
 
-    const KEY_DIRECT_FACTORY = 'directFactory';
+    const KEY_DIRECT_FACTORY = 'direct_factory';
 
-    const KEY = 'lazyLoad';
+    const KEY = 'lazy_load_direct';
     /**
      * Can the factory create an instance for the service?
      *

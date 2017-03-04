@@ -20,9 +20,9 @@ class LazyLoadResponseRendererAbstractFactory implements AbstractFactoryInterfac
 {
     const KEY_ATTRIBUTE_RESPONSE_DATA = 'responseData';
 
-    const KEY_ACCEPT_TYPE_PATTERN = 'acceptTypesPattern';
+    const KEY_ACCEPT_TYPE_PATTERN = 'accept_types_pattern';
 
-    const KEY = 'lazyLoad';
+    const KEY = 'lazy_load_response_render';
     /**
      * Can the factory create an instance for the service?
      *

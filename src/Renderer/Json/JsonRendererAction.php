@@ -10,7 +10,7 @@ namespace rollun\actionrender\Renderer\Json;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use rollun\actionrender\Renderer\LazyLoadResponseRendererAbstractFactory;
+use rollun\actionrender\Factory\LazyLoadResponseRendererAbstractFactory;
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\Stratigility\MiddlewareInterface;
 

@@ -45,7 +45,7 @@ class HtmlParamResolver implements MiddlewareInterface
     {
         $routeResult = $request->getAttribute(RouteResult::class);
 
-        if($request->getAttribute(static::KEY_ATTRIBUTE_TEMPLATE_NAME) != null){
+        if($request->getAttribute(static::KEY_ATTRIBUTE_TEMPLATE_NAME) === null){
             $routeName = 'app::';
             $routeName .= isset($routeResult) ? $routeResult->getMatchedRouteName() : "default-page";
             $request = $request->withAttribute(static::KEY_ATTRIBUTE_TEMPLATE_NAME, $routeName);

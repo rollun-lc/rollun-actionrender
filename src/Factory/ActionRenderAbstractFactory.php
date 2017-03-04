@@ -18,13 +18,13 @@ use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 
 class ActionRenderAbstractFactory implements AbstractFactoryInterface
 {
-    const KEY = 'ActionRenderService';
+    const KEY = 'action_render_service';
 
-    const KEY_ACTION_MIDDLEWARE_SERVICE = 'ActionMiddlewareService';
+    const KEY_ACTION_MIDDLEWARE_SERVICE = 'action_middleware_service';
 
-    const KEY_RENDER_MIDDLEWARE_SERVICE = 'RenderMiddlewareService';
+    const KEY_RENDER_MIDDLEWARE_SERVICE = 'render_middleware_service';
 
-    const KEY_RETURNER_MIDDLEWARE_SERVICE = 'ReturnerMiddlewareService';
+    const KEY_RETURNER_MIDDLEWARE_SERVICE = 'returner_middleware_service';
 
     /**
      * Can the factory create an instance for the service?
