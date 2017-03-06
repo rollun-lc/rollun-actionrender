@@ -9,9 +9,13 @@
 namespace rollun\actionrender\LazyLoadMiddlewareGetter\Factory;
 
 use Interop\Container\ContainerInterface;
+use rollun\actionrender\LazyLoadMiddlewareGetter\Attribute;
 
 class AttributeAbstractFactory extends AbstractLazyLoadMiddlewareGetterAbstractFactory
 {
+
+    const EXTENDER_CLASS = Attribute::class;
+
     /**
      * Create an object
      *

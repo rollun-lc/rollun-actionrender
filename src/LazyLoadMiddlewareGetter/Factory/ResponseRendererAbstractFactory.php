@@ -17,6 +17,8 @@ use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 
 class ResponseRendererAbstractFactory extends AbstractLazyLoadMiddlewareGetterAbstractFactory
 {
+    const EXTENDER_CLASS = ResponseRenderer::class;
+
     /**
      * Create an object
      *

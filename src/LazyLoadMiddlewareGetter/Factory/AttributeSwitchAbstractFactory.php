@@ -9,10 +9,15 @@
 namespace rollun\actionrender\LazyLoadMiddlewareGetter\Factory;
 
 use Interop\Container\ContainerInterface;
+use rollun\actionrender\LazyLoadMiddlewareGetter\AttributeSwitch;
 
 class AttributeSwitchAbstractFactory extends AbstractLazyLoadMiddlewareGetterAbstractFactory
 {
+
+    const EXTENDER_CLASS = AttributeSwitch::class;
+
     const DEFAULT_ATTRIBUTE_NAME = 'switchAttribute';
+
     /**
      * Create an object
      *
