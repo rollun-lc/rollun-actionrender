@@ -28,12 +28,12 @@ class LazyLoadPipe extends MiddlewarePipe implements LazyLoadPipeInterface
 
     /**
      * DynamicPipe constructor.
-     * @param LazyLoadMiddlewareGetterInterface $middlewareDeterminator
+     * @param LazyLoadMiddlewareGetterInterface $lazyLoadMiddlewareGetter
      * @param MiddlewareExtractor $middlewareFactory
      */
-    public function __construct(LazyLoadMiddlewareGetterInterface $middlewareDeterminator, MiddlewareExtractor $middlewareFactory)
+    public function __construct(LazyLoadMiddlewareGetterInterface $lazyLoadMiddlewareGetter, MiddlewareExtractor $middlewareFactory)
     {
-        $this->setMiddlewareDeterminator($middlewareDeterminator);
+        $this->setMiddlewareDeterminator($lazyLoadMiddlewareGetter);
         $this->setMiddlewareFactory($middlewareFactory);
         parent::__construct();
     }
