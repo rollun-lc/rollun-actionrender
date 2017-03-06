@@ -13,7 +13,7 @@ use rollun\actionrender\Interfaces\LazyLoadMiddlewareGetterInterface;
 use rollun\actionrender\RuntimeException;
 use Zend\Stratigility\MiddlewarePipe;
 
-class SwitchGetterLazyLoad implements LazyLoadMiddlewareGetterInterface
+class AttributeSwitch implements LazyLoadMiddlewareGetterInterface
 {
     /**
      * [
@@ -48,8 +48,6 @@ class SwitchGetterLazyLoad implements LazyLoadMiddlewareGetterInterface
         if (is_null($attributeValue)) {
             throw new RuntimeException("Attribute '" . $this->attributeName . "' values not valid.");
         }
-
-
         foreach ($this->middlewares as $pattern => $middlewareService) {
             if (preg_match($pattern, $attributeValue)) {
                 $middlewares[] = $middlewareService;

@@ -11,7 +11,7 @@ namespace rollun\actionrender\LazyLoadMiddlewareGetter;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use rollun\actionrender\Interfaces\LazyLoadMiddlewareGetterInterface;
 
-class ResponseRendererGetterLazyLoad implements LazyLoadMiddlewareGetterInterface
+class ResponseRenderer implements LazyLoadMiddlewareGetterInterface
 {
     /**
      * [
@@ -20,12 +20,12 @@ class ResponseRendererGetterLazyLoad implements LazyLoadMiddlewareGetterInterfac
      * ]
      * @var array
      */
-    protected $acceptTypesPattern;
+    protected $middlewares;
 
 
-    public function __construct(array $acceptTypesPattern)
+    public function __construct(array $middlewares)
     {
-        $this->acceptTypesPattern = $acceptTypesPattern;
+        $this->middlewares = $middlewares;
     }
 
     /**
@@ -36,7 +36,7 @@ class ResponseRendererGetterLazyLoad implements LazyLoadMiddlewareGetterInterfac
     {
         $accept = $request->getHeaderLine('Accept');
 
-        foreach ($this->acceptTypesPattern as $acceptTypePattern => $middlewareService) {
+        foreach ($this->middlewares as $acceptTypePattern => $middlewareService) {
             if (preg_match($acceptTypePattern, $accept)) {
                 return [ $middlewareService ];
             }
