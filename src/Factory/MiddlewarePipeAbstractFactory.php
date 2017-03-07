@@ -25,17 +25,6 @@ class MiddlewarePipeAbstractFactory implements AbstractFactoryInterface
 
     const KEY_MIDDLEWARES = 'middlewares';
 
-    protected $middlewares;
-
-    /**
-     * MiddlewarePipeAbstractFactory constructor.
-     * @param array $middlewares
-     */
-    public function __construct(array $middlewares = [])
-    {
-        $this->middlewares = $middlewares;
-    }
-
     /**
      * Create an object
      *
@@ -47,18 +36,19 @@ class MiddlewarePipeAbstractFactory implements AbstractFactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
+        $returnMiddlewares = [];
         $config = $container->get('config');
         $middlewares = $config[static::KEY][$requestedName][static::KEY_MIDDLEWARES];
         foreach ($middlewares as $key => $middleware) {
             if ($container->has($middleware)) {
-                $this->middlewares[$key] = $container->get($middleware);
+                $returnMiddlewares[$key] = $container->get($middleware);
             } else {
                 throw new ServiceNotFoundException("$middleware not found in Container");
             }
         }
 
-        ksort($this->middlewares);
-        return new AbstractMiddlewarePipe($this->middlewares);
+        ksort($returnMiddlewares);
+        return new AbstractMiddlewarePipe($returnMiddlewares);
     }
 
     /**

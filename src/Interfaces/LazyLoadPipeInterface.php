@@ -16,10 +16,10 @@ interface LazyLoadPipeInterface extends MiddlewareInterface, ServerMiddlewareInt
     /**
      * @param LazyLoadMiddlewareGetterInterface $middlewareDeterminator
      */
-    public function setMiddlewareDeterminator($middlewareDeterminator);
+    public function setLazyLoadMiddlewareGetter($middlewareDeterminator);
 
     /**
      * @param MiddlewareExtractor $middlewareFactory
      */
-    public function setMiddlewareFactory($middlewareFactory);
+    public function setMiddlewareExtractor($middlewareFactory);
 }

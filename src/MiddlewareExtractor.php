@@ -9,12 +9,8 @@
 namespace rollun\actionrender;
 
 use Interop\Container\ContainerInterface;
-use Interop\Container\Exception\ContainerException;
-use Interop\Http\Middleware\MiddlewareInterface;
-use rollun\actionrender\RuntimeException;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
-use Zend\ServiceManager\Factory\AbstractFactoryInterface;
+use Interop\Http\Middleware\ServerMiddlewareInterface;
+use Zend\Stratigility\MiddlewareInterface;
 
 class MiddlewareExtractor
 {
@@ -38,7 +34,7 @@ class MiddlewareExtractor
      */
     public function canExtract($requestedName)
     {
-        if($this->container->has($requestedName)) {
+        if ($this->container->has($requestedName)) {
             return true;
         }
         return false;
@@ -49,14 +45,27 @@ class MiddlewareExtractor
      *
      * @param  string $requestedName
      * @param  null|array $options
-     * @return \Zend\Stratigility\MiddlewareInterface|\Interop\Http\Middleware\MiddlewareInterface
+     * @return MiddlewareInterface|\Interop\Http\Middleware\MiddlewareInterface
      * @throws RuntimeException if any other error occurs
      */
     public function extract($requestedName, array $options = null)
     {
         $service = $this->container->get($requestedName);
-        if(is_a($service, \Zend\Stratigility\MiddlewareInterface::class, true)
-            || is_a($service, \Interop\Http\Middleware\MiddlewareInterface::class, true)) {
+        if (is_a($service, MiddlewareInterface::class, true)
+            || is_a($service, ServerMiddlewareInterface::class, true)
+        ) {
+            return $service;
+        }
+        throw new RuntimeException("Service $requestedName is not middleware.");
+    }
+
+    public function callFactory($factoryClass, $requestedName, $options)
+    {
+        $factory = new $factoryClass();
+        $service = $factory($this->container, $requestedName, $options);
+        if (is_a($service, MiddlewareInterface::class, true)
+            || is_a($service, ServerMiddlewareInterface::class, true)
+        ) {
             return $service;
         }
         throw new RuntimeException("Service $requestedName is not middleware.");

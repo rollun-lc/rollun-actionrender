@@ -12,6 +12,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 interface LazyLoadMiddlewareGetterInterface
 {
+    const KEY_FACTORY_CLASS = 'factoryClass';
+
+    const KEY_REQUEST_NAME = 'requestName';
+
+    const KEY_OPTIONS = 'options';
     /**
      * 
      * @param Request $request

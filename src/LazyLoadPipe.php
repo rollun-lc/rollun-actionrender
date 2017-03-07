@@ -19,23 +19,44 @@ use Zend\Stratigility\MiddlewarePipe;
 
 class LazyLoadPipe extends MiddlewarePipe implements LazyLoadPipeInterface
 {
+    /** @var string */
+    protected $name;
 
     /** @var LazyLoadMiddlewareGetterInterface */
-    protected $middlewareDeterminator;
+    protected $lazyLoadMiddlewareGetter;
 
-    /** @var MiddlewareExtractor  */
-    protected $middlewareFactory;
+    /** @var MiddlewareExtractor */
+    protected $middlewareExtractor;
+
+    protected $middlewaresService;
 
     /**
      * DynamicPipe constructor.
      * @param LazyLoadMiddlewareGetterInterface $lazyLoadMiddlewareGetter
      * @param MiddlewareExtractor $middlewareFactory
      */
-    public function __construct(LazyLoadMiddlewareGetterInterface $lazyLoadMiddlewareGetter, MiddlewareExtractor $middlewareFactory)
+    public function __construct(LazyLoadMiddlewareGetterInterface $lazyLoadMiddlewareGetter, MiddlewareExtractor $middlewareFactory, $name = null)
     {
-        $this->setMiddlewareDeterminator($lazyLoadMiddlewareGetter);
-        $this->setMiddlewareFactory($middlewareFactory);
+        $this->setLazyLoadMiddlewareGetter($lazyLoadMiddlewareGetter);
+        $this->setMiddlewareExtractor($middlewareFactory);
+        $this->name = $name;
         parent::__construct();
+    }
+
+    /**
+     * @param LazyLoadMiddlewareGetterInterface $lazyLoadMiddlewareGetter
+     */
+    public function setLazyLoadMiddlewareGetter($lazyLoadMiddlewareGetter)
+    {
+        $this->lazyLoadMiddlewareGetter = $lazyLoadMiddlewareGetter;
+    }
+
+    /**
+     * @param MiddlewareExtractor $middlewareExtractor
+     */
+    public function setMiddlewareExtractor($middlewareExtractor)
+    {
+        $this->middlewareExtractor = $middlewareExtractor;
     }
 
     public function __invoke(Request $request, Response $response, callable $out = null)
@@ -44,45 +65,39 @@ class LazyLoadPipe extends MiddlewarePipe implements LazyLoadPipeInterface
         return parent::__invoke($request, $response, $out);
     }
 
-    public function process(Request $request, DelegateInterface $delegate)
-    {
-        $this->initPipe($request);
-        return parent::process($request, $delegate);
-    }
-
     /**
      * Initialize pipe by determined middleware
      * @param Request $request
      * @return void
+     * @throws RuntimeException
      */
     protected function initPipe(Request $request)
     {
-        $middlewaresService = $this->middlewareDeterminator->getLazyLoadMiddlewares($request);
-        foreach ($middlewaresService as $middlewareService) {
-            if($this->middlewareFactory->canExtract($middlewareService)) {
-                $this->pipe($this->middlewareFactory->extract($middlewareService));
+        if(!isset($this->middlewaresService)) {
+            $this->middlewaresService = $this->lazyLoadMiddlewareGetter->getLazyLoadMiddlewares($request);
+        }
+        foreach ($this->middlewaresService as $key => $middlewareService) {
+            if (is_array($middlewareService)) {
+                $this->pipe(
+                    $this->middlewareExtractor->callFactory(
+                        $middlewareService[LazyLoadMiddlewareGetterInterface::KEY_FACTORY_CLASS],
+                        $middlewareService[LazyLoadMiddlewareGetterInterface::KEY_REQUEST_NAME],
+                        $middlewareService[LazyLoadMiddlewareGetterInterface::KEY_OPTIONS]));
             } else {
-                throw new RuntimeException("$middlewareService cannot created by middleware factory.");
+                if ($this->middlewareExtractor->canExtract($middlewareService)) {
+                    $this->pipe($this->middlewareExtractor->extract($middlewareService));
+                } else {
+                    throw new RuntimeException("$middlewareService cannot created by middleware factory.");
+                }
             }
+            unset($this->middlewaresService[$key]);
         }
     }
 
-
-    /**
-     * @param LazyLoadMiddlewareGetterInterface $middlewareDeterminator
-     */
-    public function setMiddlewareDeterminator($middlewareDeterminator)
+    public function process(Request $request, DelegateInterface $delegate)
     {
-        $this->middlewareDeterminator = $middlewareDeterminator;
-    }
-
-
-    /**
-     * @param MiddlewareExtractor $middlewareFactory
-     */
-    public function setMiddlewareFactory($middlewareFactory)
-    {
-        $this->middlewareFactory = $middlewareFactory;
+        $this->initPipe($request);
+        return parent::process($request, $delegate);
     }
 
 }

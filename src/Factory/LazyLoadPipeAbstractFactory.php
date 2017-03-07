@@ -62,7 +62,7 @@ class LazyLoadPipeAbstractFactory implements AbstractFactoryInterface
             $middlewareGetter = '';
             $middlewareExtractor = '';
         }
-        $lazyLoadPipe = new LazyLoadPipe($middlewareGetter, $middlewareExtractor);
+        $lazyLoadPipe = new LazyLoadPipe($middlewareGetter, $middlewareExtractor, $requestedName);
         return $lazyLoadPipe;
     }
 }
