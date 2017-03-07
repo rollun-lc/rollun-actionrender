@@ -11,7 +11,7 @@ namespace rollun\actionrender\LazyLoadMiddlewareGetter;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use rollun\actionrender\Interfaces\LazyLoadMiddlewareGetterInterface;
 
-class Attribute
+class Attribute implements LazyLoadMiddlewareGetterInterface
 {
     /**
      * @var string
