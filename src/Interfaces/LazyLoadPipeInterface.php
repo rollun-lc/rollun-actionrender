@@ -7,11 +7,11 @@
  */
 namespace rollun\actionrender\Interfaces;
 
-use Interop\Http\Middleware\MiddlewareInterface;
 use Interop\Http\Middleware\ServerMiddlewareInterface;
-use rollun\actionrender\Factory\MiddlewareExtractor;
+use rollun\actionrender\MiddlewareExtractor;
+use Zend\Stratigility\MiddlewareInterface;
 
-interface LazyLoadPipeInterface extends ServerMiddlewareInterface, MiddlewareInterface
+interface LazyLoadPipeInterface extends MiddlewareInterface, ServerMiddlewareInterface
 {
     /**
      * @param LazyLoadMiddlewareGetterInterface $middlewareDeterminator
