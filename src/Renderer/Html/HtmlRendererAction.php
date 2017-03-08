@@ -58,7 +58,7 @@ class HtmlRendererAction implements MiddlewareInterface
      */
     public function __invoke(Request $request, Response $response, callable $out = null)
     {
-        $data = $request->getAttribute(LazyLoadResponseRendererAbstractFactory::KEY_ATTRIBUTE_RESPONSE_DATA);
+        $data = $request->getAttribute('responseData');
         $name = $request->getAttribute(HtmlParamResolver::KEY_ATTRIBUTE_TEMPLATE_NAME);
 
         /** @var Response $response */

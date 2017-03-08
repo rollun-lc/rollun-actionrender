@@ -44,7 +44,7 @@ class JsonRendererAction implements MiddlewareInterface
      */
     public function __invoke(Request $request, Response $response, callable $out = null)
     {
-        $data = $request->getAttribute(LazyLoadResponseRendererAbstractFactory::KEY_ATTRIBUTE_RESPONSE_DATA);
+        $data = $request->getAttribute('responseData');
 
         /** @var Response $response */
         $response = $request->getAttribute(Response::class) ?: null;
