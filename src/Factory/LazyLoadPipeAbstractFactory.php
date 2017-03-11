@@ -1,28 +1,27 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: victorsecuring
- * Date: 18.02.17
- * Time: 12:55 PM
+ * User: root
+ * Date: 06.03.17
+ * Time: 16:27
  */
 
 namespace rollun\actionrender\Factory;
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
+use rollun\actionrender\LazyLoadPipe;
+use rollun\actionrender\MiddlewareExtractor;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 
-class LazyLoadDirectAbstractFactory implements AbstractFactoryInterface
+class LazyLoadPipeAbstractFactory implements AbstractFactoryInterface
 {
+    const KEY = 'LazyLoadPipe';
 
-    const KEY_DIRECT_FACTORY = 'direct_factory';
+    const KEY_LAZY_LOAD_MIDDLEWARE_GETTER_SERVICE = 'lazyLoadMiddlewareGetter';
 
-    const KEY = 'lazy_load_direct';
     /**
      * Can the factory create an instance for the service?
      *
@@ -37,7 +36,7 @@ class LazyLoadDirectAbstractFactory implements AbstractFactoryInterface
     }
 
     /**
-     * Create middleware by DirectFactor.
+     * Create an object
      *
      * @param  ContainerInterface $container
      * @param  string $requestedName
@@ -51,24 +50,19 @@ class LazyLoadDirectAbstractFactory implements AbstractFactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $config = $container->get('config');
-        $factoryConfig = $config[static::KEY][$requestedName];
-        if (!isset($factoryConfig[static::KEY_DIRECT_FACTORY]) ||
-            empty($factoryConfig[static::KEY_DIRECT_FACTORY])
-        ) {
-           throw new ServiceNotCreatedException("Direct factory not set!");
+        if(is_string($config[static::KEY][$requestedName])) {
+            if($container->has($config[static::KEY][$requestedName])) {
+                $middlewareGetter = $container->get($config[static::KEY][$requestedName]);
+                $middlewareExtractor = new MiddlewareExtractor($container);
+            } else {
+                throw new ServiceNotFoundException($config[static::KEY][$requestedName] . " service not found.");
+            }
+        } else {
+           //TODO: for more options...
+            $middlewareGetter = '';
+            $middlewareExtractor = '';
         }
-
-        $directFactory = new $factoryConfig[static::KEY_DIRECT_FACTORY]();
-        $middlewareLazyLoad = function (
-            Request $request,
-            Response $response,
-            $next = null
-        ) use ($container, $directFactory) {
-            $resourceName = $request->getAttribute('resourceName');
-            $middleware = $directFactory($container, $resourceName);
-            return $middleware($request, $response, $next);
-        };
-
-        return $middlewareLazyLoad;
+        $lazyLoadPipe = new LazyLoadPipe($middlewareGetter, $middlewareExtractor, $requestedName);
+        return $lazyLoadPipe;
     }
 }
