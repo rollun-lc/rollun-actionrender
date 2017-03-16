@@ -66,10 +66,10 @@ class ActionRenderInstaller extends InstallerAbstract
     {
         $config = $this->container->get('config');
         return (
-            isset($config['service']['abstract_factories']) &&
-            isset($config['service']['invokables']) &&
-            in_array(ActionRenderAbstractFactory::class, $config['service']['abstract_factories']) &&
-            in_array(ReturnMiddleware::class, $config['service']['invokables'])
+            isset($config['dependencies']['abstract_factories']) &&
+            isset($config['dependencies']['invokables']) &&
+            in_array(ActionRenderAbstractFactory::class, $config['dependencies']['abstract_factories']) &&
+            in_array(ReturnMiddleware::class, $config['dependencies']['invokables'])
         );
     }
 }
