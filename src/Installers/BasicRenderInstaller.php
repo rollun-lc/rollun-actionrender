@@ -102,14 +102,17 @@ class BasicRenderInstaller extends InstallerAbstract
     {
         $config = $this->container->get('config');
         return (
-            isset($config['service']['abstract_factories']) &&
-            isset($config['service']['factories']) &&
-            isset($config['service']['invokables']) &&
-            in_array(ResponseRendererAbstractFactory::class, $config['service']['abstract_factories']) &&
-            in_array(HtmlParamResolver::class, $config['service']['invokables']) &&
-            in_array(JsonRendererAction::class, $config['service']['invokables']) &&
-            in_array(ReturnMiddleware::class, $config['service']['invokables']) &&
-            in_array(HtmlRendererAction::class, $config['service']['factories'])
+            isset($config['dependencies']['abstract_factories']) &&
+            in_array(ResponseRendererAbstractFactory::class, $config['dependencies']['abstract_factories']) &&
+            isset($config['dependencies']['invokables'][HtmlParamResolver::class]) &&
+            isset($config['dependencies']['invokables'][JsonRendererAction::class]) &&
+            isset($config['dependencies']['invokables'][ReturnMiddleware::class]) &&
+            isset($config['dependencies']['invokables']) &&
+            $config['dependencies']['invokables'][HtmlParamResolver::class] === HtmlParamResolver::class &&
+            $config['dependencies']['invokables'][JsonRendererAction::class] === JsonRendererAction::class &&
+            $config['dependencies']['invokables'][ReturnMiddleware::class] === ReturnMiddleware::class &&
+            isset($config['dependencies']['factories'][HtmlRendererAction::class]) &&
+            $config['dependencies']['factories'][HtmlRendererAction::class] === HtmlRendererFactory::class
         );
     }
 

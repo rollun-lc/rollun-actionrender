@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9a2bc627a72c348280115c3aa94b8c60",
+    "hash": "bd697dfcf020606be83a11259096f841",
     "content-hash": "94c83ab455d33f5df3c59187ecc8c1bb",
     "packages": [
         {
@@ -753,12 +753,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "73603e2e613ddc14e2e11ec6da4e837bf0a2149a"
+                "reference": "66f7b04100fb2a7bdeaaddf02579189e15835056"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/73603e2e613ddc14e2e11ec6da4e837bf0a2149a",
-                "reference": "73603e2e613ddc14e2e11ec6da4e837bf0a2149a",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/66f7b04100fb2a7bdeaaddf02579189e15835056",
+                "reference": "66f7b04100fb2a7bdeaaddf02579189e15835056",
                 "shasum": ""
             },
             "conflict": {
@@ -783,8 +783,8 @@
                 "doctrine/mongodb-odm-bundle": ">=2,<3.0.1",
                 "doctrine/orm": ">=2,<2.4.8|>=2.5,<2.5.1",
                 "dompdf/dompdf": ">=0.6,<0.6.2",
-                "drupal/core": ">=8,<8.2.3",
-                "drupal/drupal": ">=8,<8.2.3",
+                "drupal/core": ">=8,<8.2.7",
+                "drupal/drupal": ">=8,<8.2.7",
                 "firebase/php-jwt": "<2",
                 "friendsofsymfony/rest-bundle": ">=1.2,<1.2.2",
                 "friendsofsymfony/user-bundle": ">=1.2,<1.3.5",
@@ -880,20 +880,20 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2017-03-02 15:23:30"
+            "time": "2017-03-16 14:24:35"
         },
         {
             "name": "rollun-com/rollun-dic",
-            "version": "1.1.6",
+            "version": "1.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rollun-com/rollun-dic.git",
-                "reference": "594f69e896ac24a6ef05f31ec4737c0bd1300deb"
+                "reference": "2ad12f5b294c926105e7a42a0e33292d2cc3e19f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rollun-com/rollun-dic/zipball/594f69e896ac24a6ef05f31ec4737c0bd1300deb",
-                "reference": "594f69e896ac24a6ef05f31ec4737c0bd1300deb",
+                "url": "https://api.github.com/repos/rollun-com/rollun-dic/zipball/2ad12f5b294c926105e7a42a0e33292d2cc3e19f",
+                "reference": "2ad12f5b294c926105e7a42a0e33292d2cc3e19f",
                 "shasum": ""
             },
             "require": {
@@ -933,20 +933,20 @@
                 }
             ],
             "description": "InsideConstruct",
-            "time": "2017-03-04 14:18:22"
+            "time": "2017-03-16 13:11:39"
         },
         {
             "name": "rollun-com/rollun-installer",
-            "version": "2.0.0",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rollun-com/rollun-installer.git",
-                "reference": "7b1423aa18d17dd453365cef895648e20d5a113b"
+                "reference": "f1e81fb0b5afae6a1cc37cdbfd100fed16dfa2f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rollun-com/rollun-installer/zipball/7b1423aa18d17dd453365cef895648e20d5a113b",
-                "reference": "7b1423aa18d17dd453365cef895648e20d5a113b",
+                "url": "https://api.github.com/repos/rollun-com/rollun-installer/zipball/f1e81fb0b5afae6a1cc37cdbfd100fed16dfa2f7",
+                "reference": "f1e81fb0b5afae6a1cc37cdbfd100fed16dfa2f7",
                 "shasum": ""
             },
             "require": {
@@ -991,7 +991,7 @@
                 }
             ],
             "description": "Installer",
-            "time": "2017-03-11 09:03:46"
+            "time": "2017-03-16 13:06:40"
         },
         {
             "name": "rollun-com/rollun-logger",
@@ -1052,16 +1052,16 @@
         },
         {
             "name": "rollun-com/rollun-utils",
-            "version": "2.0.0",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rollun-com/rollun-utils.git",
-                "reference": "ea2119300e34d1f724d53a3fee6d6002898673a4"
+                "reference": "862b198464651ae36385223161801a3a425658ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rollun-com/rollun-utils/zipball/ea2119300e34d1f724d53a3fee6d6002898673a4",
-                "reference": "ea2119300e34d1f724d53a3fee6d6002898673a4",
+                "url": "https://api.github.com/repos/rollun-com/rollun-utils/zipball/862b198464651ae36385223161801a3a425658ba",
+                "reference": "862b198464651ae36385223161801a3a425658ba",
                 "shasum": ""
             },
             "require": {
@@ -1110,7 +1110,7 @@
                 "php",
                 "rest"
             ],
-            "time": "2017-03-11 09:16:01"
+            "time": "2017-03-14 15:32:38"
         },
         {
             "name": "seld/cli-prompt",
@@ -2075,23 +2075,23 @@
         },
         {
             "name": "zendframework/zend-expressive-twigrenderer",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-expressive-twigrenderer.git",
-                "reference": "a1583749cc55b79b81939175281e56a5c9449213"
+                "reference": "2e6eca456d1449813102c84bdd04e43e7108e4b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-expressive-twigrenderer/zipball/a1583749cc55b79b81939175281e56a5c9449213",
-                "reference": "a1583749cc55b79b81939175281e56a5c9449213",
+                "url": "https://api.github.com/repos/zendframework/zend-expressive-twigrenderer/zipball/2e6eca456d1449813102c84bdd04e43e7108e4b9",
+                "reference": "2e6eca456d1449813102c84bdd04e43e7108e4b9",
                 "shasum": ""
             },
             "require": {
                 "container-interop/container-interop": "^1.2",
                 "php": "^5.6 || ^7.0",
                 "twig/twig": "^1.32 || ^2.1",
-                "zendframework/zend-expressive-helpers": "^1.4 || ^2.2 || ^3.0.1",
+                "zendframework/zend-expressive-helpers": "^1.4 || ^2.2 || ^3.0.1 || ^4.0",
                 "zendframework/zend-expressive-router": "^1.3.2 || ^2.1",
                 "zendframework/zend-expressive-template": "^1.0.4"
             },
@@ -2108,8 +2108,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3-dev",
-                    "dev-develop": "1.4-dev"
+                    "dev-master": "1.4-dev",
+                    "dev-develop": "1.5-dev"
                 }
             },
             "autoload": {
@@ -2130,7 +2130,7 @@
                 "psr-7",
                 "twig"
             ],
-            "time": "2017-03-02 17:50:19"
+            "time": "2017-03-14 15:33:19"
         },
         {
             "name": "zendframework/zend-http",

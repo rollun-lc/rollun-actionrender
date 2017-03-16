@@ -60,8 +60,8 @@ class LazyLoadPipeInstaller extends InstallerAbstract
     {
         $config = $this->container->get('config');
         return (
-            isset($config['service']['abstract_factories']) &&
-            in_array(LazyLoadPipeAbstractFactory::class, $config['service']['abstract_factories'])
+            isset($config['dependencies']['abstract_factories']) &&
+            in_array(LazyLoadPipeAbstractFactory::class, $config['dependencies']['abstract_factories'])
         );
     }
 }
