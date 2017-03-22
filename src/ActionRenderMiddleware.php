@@ -15,12 +15,13 @@ class ActionRenderMiddleware extends MiddlewarePipe
 {
     /**
      * MainPipe constructor.
-     * @param callable $action (MiddlewareInterface|callable)
-     * @param callable $renderer (MiddlewareInterface|callable)
-     * @param callable $returner
+     * @param MiddlewareInterface $action
+     * @param MiddlewareInterface $renderer
+     * @param MiddlewareInterface $returner
+     * @throws RuntimeException
      * @internal param $middlewares
      */
-    public function __construct(callable $action, callable $renderer, callable $returner)
+    public function __construct(MiddlewareInterface $action, MiddlewareInterface $renderer, MiddlewareInterface $returner)
     {
         parent::__construct();
         $this->pipe($action);
