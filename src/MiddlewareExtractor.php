@@ -9,7 +9,7 @@
 namespace rollun\actionrender;
 
 use Interop\Container\ContainerInterface;
-use Interop\Http\Middleware\ServerMiddlewareInterface;
+use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
 use Zend\Stratigility\MiddlewareInterface;
 
 class MiddlewareExtractor
@@ -45,7 +45,7 @@ class MiddlewareExtractor
      *
      * @param  string $requestedName
      * @param  null|array $options
-     * @return MiddlewareInterface|\Interop\Http\Middleware\MiddlewareInterface
+     * @return MiddlewareInterface
      * @throws RuntimeException if any other error occurs
      */
     public function extract($requestedName, array $options = null)
@@ -53,6 +53,7 @@ class MiddlewareExtractor
         $service = $this->container->get($requestedName);
         if (is_a($service, MiddlewareInterface::class, true)
             || is_a($service, ServerMiddlewareInterface::class, true)
+            || is_callable($service)
         ) {
             return $service;
         }

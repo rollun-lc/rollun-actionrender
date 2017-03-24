@@ -8,6 +8,9 @@
 
 namespace rollun\actionrender;
 
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Zend\Diactoros\Response\EmptyResponse;
+use Zend\Stratigility\Middleware\CallableMiddlewareWrapperFactory;
 use Zend\Stratigility\MiddlewarePipe;
 
 class AbstractMiddlewarePipe extends MiddlewarePipe
@@ -18,6 +21,7 @@ class AbstractMiddlewarePipe extends MiddlewarePipe
      */
     public function __construct(array $middlewares)
     {
+        $this->setResponsePrototype(new EmptyResponse());
         parent::__construct();
         foreach ($middlewares as $middleware) {
             $this->pipe($middleware);
