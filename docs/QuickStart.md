@@ -1,150 +1,27 @@
-#ActionRender
+# Создание внешнего сервиса
 
-## Быстрый старт
-
-### Обычная практика
-
-Пускай у нас есть обычный Middleware который выполняет какое-то действие и возвращает результат.
-
-```php
-class SomeMiddleware implements MiddlewareInterface 
-{
-    public function __invoke(Request $request, Response $response, callable $out = null)
-    {
-        //todo some Action
-        //...
-        
-        //todo $html gen
-        //..
-        
-        retrun new HtmlResponse($html, $status);
-    }
-}
-```
-
-Как мы можем увидеть наш SomeMiddleware разделен на три логических блока Action, Render, Return.
-В одном мы производим какие то дейсвия для получения данных,
- в другом мы эти данные переводим в представляение, а в третим обьеденяем в ответ и возвращаем пользователю.
-И ссылаясь на принцип MVC тут четко видна граница Controller и View.
-Так что было бы правильно разделить их.
-Как мы можем это сделать ? 
-Мы просто можем разделить их на три Middleware, и добавить их в PipeLine
-
-Первый SomeActionMiddleware. Он будет выполять какое то действие и ложить его в атрибуты запроса под именем 'responceData'.
-```php
-class SomeActionMiddleware implements MiddlewareInterface 
-{
-    public function __invoke(Request $request, Response $response, callable $out = null)
-    {
-        //todo some Action
-        //...
-        $request = $request->withAtrribute('responceData', $data);
-        if (isset($out)) {
-           return $out($request, $response);
-        }
-        return $response;
-    }
-}
-```
-
-Второй SomeRenderMiddleware. Он будет брать данные из атрибута 'responceData' и строить представление.
-И класть его в атрибут запроса 'Psr\Http\Message\ResponseInterface'.
+Для того что бы создать новый внешний сервис, вам нужно определиться с именем данного сервиса, 
+и путем по которому он будет доступен.
+Так же соит определить какие типы запросов будут доступны для данного сервиса.
+Давайте посмотрим на сам конфиг:
 
 ```php
-class SomeRenderMiddleware implements MiddlewareInterface 
-{
-    public function __invoke(Request $request, Response $response, callable $out = null)
-    {
-        $data =  $request->getAtrribute('responceData');
-        //todo $html gen
-        //..
-        retrun new HtmlResponse($html, $status);
-    }
-}
+    [
+        'name' => '',
+        'path' => '',
+        'middleware' => '',
+        'allowed_methods' => ['GET', 'POST'],
+    ],
 ```
 
-А третий SomeReturnerMiddleware. Он будет брать резултат из атрибута запроса, и отдавать его пользователю.
-Моежт использоваться в качестве аспекта.
+* **name** - Имя роута.
+* **path** - Путь по которому пользователь сможет обратиться к сервису.
+* **middleware** - имя сервиса по которому будет получен middleware котором упередасться управление.
+* **allowed_methods** - доступные типы (http)запросов.
 
-```php
-class SomeRenderMiddleware implements MiddlewareInterface 
-{
-    public function __invoke(Request $request, Response $response, callable $out = null)
-    {
-        $data =  $request->getAtrribute('responceData');
-        //todo $html gen
-        //..
-        retrun new HtmlResponse($html, $status);
-    }
-}
-```
+Так как с именем, путем и доступными методами вы уже определились, 
+давайте рассмотрим `middleware` который будет обрабатывать наш запрос.
+Для этого ознакомтесь с [ActionRender ](https://github.com/rollun-com/rollun-actionrender/blob/master/README.md)
 
-Тпереь нам останеться создать фабрику в которой мы создать pipeLine и положим туда эти три Middleware.
-В общем случае мы можем представить любое действие как последовательность трех Middleware - Action, Render, Returner.
-
-## ActionRender
-
-Данная библиотека позволяет следовать данной идеалогии разделение действия на три Middleware.
-
-1) **Action** - Выполняет определенное действие. Результат должен пометсить в атребут запроста `responseData`
-
-2) **Render** - Отдает ответ пользователю.
-
-3) **Returner** - возвращает результат. 
-
-Вам так же не нужно заботится о **Returner**, так как по умолчанию 
-используеться самая простая реализация, которая просто возвращает резаультат.
-Но если вам нужно использовать его в качестве аспекта, 
-вы можете указать в конфиге конкретный сервис который вернет Returner Middleware.
-
-Теперь останется только указать в конфиге наш ActionRenderPipe.
-```php
-     ActionRenderAbstractFactory::KEY => [
-        'home' => [
-                ActionRenderAbstractFactory::KEY_ACTION_MIDDLEWARE_SERVICE => 'SomeActionMiddleware',
-                ActionRenderAbstractFactory::KEY_RENDER_MIDDLEWARE_SERVICE => 'SomeRenderMiddleware'
-                // Не обязательно указывать так как будет использовать Returner по умолчанию.
-                //ActionRenderAbstractFactory::KEY_RENDER_MIDDLEWARE_SERVICE => 'SomeReturnerrMiddleware'
-        ]
-     ]
-```
-> [Default Returner](../src/ReturnMiddleware.php)
-
-`'home'` - имя по которому будет создан данный **ActionRender Middleware**  
-`'SomeActionMiddleware'` и `'SomeRenderMiddleware'` имена сервисов по которым **SM** вернет соответствующе **Middleware**. 
-
-Так же, бывают ситуации когда мы должны получить какие то параметры из Request до выполения самого Action или Render.
-Для таких случаях предусмотрено что каждый из эих двух **Middleware** могут быть заменены на двумя **Middleware**
-
-* Для **Action**  
-    1) **ParamResolver** - выкусывает нужные параметры акшену из запроса и кладет их в атрибуты запроса .  
-    2) **Action** -  выполняет действие и результат кладет в аттребут под именем `responceData`.  
-
-Так же бывают случаи когда вам требуется создать ActionMiddleware относительно какого то параметра в запросе, 
-тогда соит обратить внимание на LazyLoadFactory.
-    
-* Соответсвенно для **Render**  
-    1) **ParamResolver** - выкусывает нужные параметры вьюверу из запроса и кладет их в атрибуты.  
-    2) **Render** -  выполняет отрисовку результата и кладет их в атрибуты.  
-    
-> Для **RenderMiddleware** советуем обратить внимание на [LazyLoadResponseRendererAbstractFactory](./LazyLoadResponseRendererAbstractFactory.md). 
-    
-## Замечания
-
-* Каждый из **Middleware** может быть **Middleware**, **pipeLine** либо **LazyLoadFactory** (Которая вернет **Middleware**).
-    > Пример [**LazyLoadFactory** -> LazyLoadResponseRendererAbstractFactory](../src/ActionRender/Factory/LazyLoadResponseRendererAbstractFactory.php)
-
-* **LazyLoadFactory** не могут передавать какие то занчения в **Middleware** по средсву аттребутов в **Request**.
-Для этого стоит использовать либо параметры конструктора обьекта либо использовать PipeLine, а в них  указывать **ParamResolver Middleware**.
-
-## Компоненты
-
-* [ActionRenderAbstractFactory](./ActionRenderAbstractFactory.md) - Фабрика которая создает ActionRender.
-
-* [MiddlewarePipeAbstractFactory](./MiddlewarePipeAbstractFactory.md) - Вспомогательная абстрактная фабрика для создания middlewarePipeLine.
-
-* [LazyLoadResponseRendererAbstractFactory](./LazyLoadResponseRendererAbstractFactory.md) - Вспомогательная абстрактная **LazyLoad** фабрика которая относительно ожидаемого типа ответа(Accept in request Header), достанет по имени сервиса **Middleware** из **SM** и передаст ему управление.
-
-* [LazyLoadDirectAbstractFactory](./LazyLoadDirectAbstractFactory.md) - Вспомогательная абстрактная LazyLoad фабрика для создания middleware по имени переданном в запросе и помощью DirectFactory.
-
-* [LazyLoadSwitchAbstractFactory](./LazyLoadSwitchAbstractFactory.md) - Вспомогательная абстрактная LazyLoad фабрика для динамического создания middlewarePipe.
+После того как вы настроите middleware добавте его в конфиг роута в пункт **middleware**.
+Теперь ваш сервис доступен по указаному вами роуту.
