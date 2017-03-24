@@ -11,12 +11,15 @@ namespace rollun\actionrender\Factory;
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
 use rollun\actionrender\AbstractMiddlewarePipe;
+use Zend\Diactoros\Response\EmptyResponse;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Zend\Stratigility\Middleware\CallableMiddlewareWrapperFactory;
+use Zend\Stratigility\MiddlewarePipe;
 
 class MiddlewarePipeAbstractFactory implements AbstractFactoryInterface
 {

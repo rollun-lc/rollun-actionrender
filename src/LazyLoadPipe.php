@@ -8,13 +8,14 @@
 
 namespace rollun\actionrender;
 
-use Interop\Http\Middleware\DelegateInterface;
+use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use rollun\actionrender\MiddlewareExtractor;
 use rollun\actionrender\Interfaces\LazyLoadPipeInterface;
 use rollun\actionrender\Interfaces\LazyLoadMiddlewareGetterInterface;
+use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Stratigility\MiddlewarePipe;
 
 class LazyLoadPipe extends MiddlewarePipe implements LazyLoadPipeInterface
@@ -37,11 +38,19 @@ class LazyLoadPipe extends MiddlewarePipe implements LazyLoadPipeInterface
      */
     public function __construct(LazyLoadMiddlewareGetterInterface $lazyLoadMiddlewareGetter, MiddlewareExtractor $middlewareFactory, $name = null)
     {
+        $this->setResponsePrototype(new EmptyResponse());
         $this->setLazyLoadMiddlewareGetter($lazyLoadMiddlewareGetter);
         $this->setMiddlewareExtractor($middlewareFactory);
         $this->name = $name;
         parent::__construct();
     }
+
+    public function __invoke(Request $request, Response $response, $delegate)
+    {
+        $this->initPipe($request);
+        return parent::__invoke($request, $response, $delegate);
+    }
+
 
     /**
      * @param LazyLoadMiddlewareGetterInterface $lazyLoadMiddlewareGetter
@@ -59,11 +68,7 @@ class LazyLoadPipe extends MiddlewarePipe implements LazyLoadPipeInterface
         $this->middlewareExtractor = $middlewareExtractor;
     }
 
-    public function __invoke(Request $request, Response $response, callable $out = null)
-    {
-        $this->initPipe($request);
-        return parent::__invoke($request, $response, $out);
-    }
+
 
     /**
      * Initialize pipe by determined middleware
