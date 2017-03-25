@@ -21,7 +21,7 @@ class ActionRenderAbstractFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->container = $this->getMock(ContainerInterface::class);
+        $this->container = $this->getMockBuilder(ContainerInterface::class)->getMock();
         $this->object = new ActionRenderAbstractFactory();
     }
 
