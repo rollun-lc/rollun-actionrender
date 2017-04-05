@@ -27,3 +27,7 @@
  */
 
 /*$app->get('/', App\Action\HomePageAction::class, 'home');*/
+
+if($container->has('home-service')){
+    $app->route('/','home-service' ,['GET'],'home-page');
+}
