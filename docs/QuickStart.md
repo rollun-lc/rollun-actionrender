@@ -108,7 +108,7 @@ class SomeRenderMiddleware implements MiddlewareInterface
         ]
      ]
 ```
-> [Default Returner](../src/ReturnMiddleware.php)
+> [Default Returner](../src/ActionRender/src/ReturnMiddleware.php)
 
 `'home'` - имя по которому будет создан данный **ActionRender Middleware**  
 `'SomeActionMiddleware'` и `'SomeRenderMiddleware'` имена сервисов по которым **SM** вернет соответствующе **Middleware**. 
