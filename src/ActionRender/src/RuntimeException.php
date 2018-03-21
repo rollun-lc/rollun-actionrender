@@ -8,9 +8,12 @@
 
 namespace rollun\actionrender;
 
-use rollun\logger\Exception\LoggedException;
-
-class RuntimeException extends LoggedException
+/**
+ * Class RuntimeException
+ * @package rollun\actionrender
+ * @deprecated
+ */
+class RuntimeException extends \RuntimeException
 {
 
 }

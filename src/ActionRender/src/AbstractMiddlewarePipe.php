@@ -21,7 +21,6 @@ class AbstractMiddlewarePipe extends MiddlewarePipe
      */
     public function __construct(array $middlewares)
     {
-        $this->setResponsePrototype(new EmptyResponse());
         parent::__construct();
         foreach ($middlewares as $middleware) {
             $this->pipe($middleware);

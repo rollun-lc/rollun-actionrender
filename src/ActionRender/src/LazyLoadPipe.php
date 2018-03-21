@@ -38,13 +38,19 @@ class LazyLoadPipe extends MiddlewarePipe implements LazyLoadPipeInterface
      */
     public function __construct(LazyLoadMiddlewareGetterInterface $lazyLoadMiddlewareGetter, MiddlewareExtractor $middlewareFactory, $name = null)
     {
-        $this->setResponsePrototype(new EmptyResponse());
         $this->setLazyLoadMiddlewareGetter($lazyLoadMiddlewareGetter);
         $this->setMiddlewareExtractor($middlewareFactory);
         $this->name = $name;
         parent::__construct();
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @deprecated
+     * @param callable|\Webimpress\HttpMiddlewareCompatibility\HandlerInterface $delegate
+     * @return Response
+     */
     public function __invoke(Request $request, Response $response, $delegate)
     {
         $this->initPipe($request);

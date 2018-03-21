@@ -11,7 +11,7 @@ namespace rollun\actionrender;
 use Interop\Container\Exception\NotFoundException;
 use rollun\logger\Exception\LoggedException;
 
-class ServiceNotFoundException extends LoggedException implements
+class ServiceNotFoundException extends \RuntimeException implements
     NotFoundException
 {
 
