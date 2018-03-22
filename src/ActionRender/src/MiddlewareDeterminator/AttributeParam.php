@@ -10,7 +10,7 @@ namespace rollun\actionrender\MiddlewareDeterminator;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class Attribute extends AbstractParam
+class AttributeParam extends AbstractParam
 {
     /**
      * Return

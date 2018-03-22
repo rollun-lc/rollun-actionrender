@@ -8,7 +8,7 @@
 
 namespace rollun\actionrender\MiddlewareDeterminator\Factory;
 
-use rollun\actionrender\MiddlewareDeterminator\Attribute;
+use rollun\actionrender\MiddlewareDeterminator\AttributeParam;
 
 /**
  * Class HeaderSwitchAbstractFactory
@@ -16,5 +16,5 @@ use rollun\actionrender\MiddlewareDeterminator\Attribute;
  */
 class AttributeParamAbstractFactory extends AbstractParamAbstractFactory
 {
-    protected $instanceOf = Attribute::class;
+    protected $instanceOf = AttributeParam::class;
 }
