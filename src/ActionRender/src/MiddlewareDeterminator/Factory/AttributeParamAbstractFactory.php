@@ -8,13 +8,13 @@
 
 namespace rollun\actionrender\MiddlewareDeterminator\Factory;
 
-use rollun\actionrender\MiddlewareDeterminator\AttributeSwitch;
+use rollun\actionrender\MiddlewareDeterminator\Attribute;
 
 /**
- * Class AttributeSwitchAbstractFactory
+ * Class HeaderSwitchAbstractFactory
  * @package rollun\actionrender\MiddlewareDeterminator\Factory
  */
-class AttributeSwitchAbstractFactory extends AbstractSwitchAbstractFactory
+class AttributeParamAbstractFactory extends AbstractParamAbstractFactory
 {
-    protected $instanceOf = AttributeSwitch::class;
+    protected $instanceOf = Attribute::class;
 }

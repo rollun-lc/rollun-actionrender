@@ -9,12 +9,13 @@
 namespace rollun\actionrender\MiddlewareDeterminator\Factory;
 
 use rollun\actionrender\MiddlewareDeterminator\AttributeSwitch;
+use rollun\actionrender\MiddlewareDeterminator\HeaderSwitch;
 
 /**
- * Class AttributeSwitchAbstractFactory
+ * Class HeaderSwitchAbstractFactory
  * @package rollun\actionrender\MiddlewareDeterminator\Factory
  */
-class AttributeSwitchAbstractFactory extends AbstractSwitchAbstractFactory
+class HeaderSwitchAbstractFactory extends AbstractSwitchAbstractFactory
 {
-    protected $instanceOf = AttributeSwitch::class;
+    protected $instanceOf = HeaderSwitch::class;
 }

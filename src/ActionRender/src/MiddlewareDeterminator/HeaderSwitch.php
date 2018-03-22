@@ -3,22 +3,23 @@
  * Created by PhpStorm.
  * User: root
  * Date: 06.03.17
- * Time: 16:59
+ * Time: 12:55
  */
 
 namespace rollun\actionrender\MiddlewareDeterminator;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
+use rollun\actionrender\MiddlewareDeterminator\Interfaces\MiddlewareDeterminatorInterface;
 
-class Attribute extends AbstractParam
+class HeaderSwitch extends AbstractSwitch
 {
+
     /**
-     * Return
      * @param Request $request
      * @return string
      */
-    protected function getValue(Request $request)
+    function getSwitchValue(Request $request)
     {
-        return $request->getAttribute($this->name);
+        return $request->getHeaderLine($this->name);
     }
 }
