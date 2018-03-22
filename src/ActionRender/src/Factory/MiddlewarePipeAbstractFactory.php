@@ -10,7 +10,7 @@ namespace rollun\actionrender\Factory;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
-use rollun\actionrender\AbstractMiddlewarePipe;
+use rollun\actionrender\MiddlewarePipeAbstract;
 use Zend\Diactoros\Response\EmptyResponse;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
@@ -51,7 +51,7 @@ class MiddlewarePipeAbstractFactory implements AbstractFactoryInterface
         }
 
         ksort($returnMiddlewares);
-        return new AbstractMiddlewarePipe($returnMiddlewares);
+        return new MiddlewarePipeAbstract($returnMiddlewares);
     }
 
     /**

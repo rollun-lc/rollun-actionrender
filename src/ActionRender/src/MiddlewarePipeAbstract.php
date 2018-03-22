@@ -13,7 +13,7 @@ use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Stratigility\Middleware\CallableMiddlewareWrapperFactory;
 use Zend\Stratigility\MiddlewarePipe;
 
-class AbstractMiddlewarePipe extends MiddlewarePipe
+class MiddlewarePipeAbstract extends MiddlewarePipe
 {
     /**
      * MainPipe constructor.
