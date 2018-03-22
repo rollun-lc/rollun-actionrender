@@ -16,11 +16,13 @@ use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 
-class LazyLoadPipeAbstractFactory implements AbstractFactoryInterface
+class LazyLoadMiddlewareAbstractFactory implements AbstractFactoryInterface
 {
-    const KEY = 'LazyLoadPipe';
+    const KEY = LazyLoadMiddlewareAbstractFactory::class;
 
-    const KEY_LAZY_LOAD_MIDDLEWARE_GETTER_SERVICE = 'lazyLoadMiddlewareGetter';
+    const KEY_MIDDLEWARE_DETERMINATOR = 'middlewareDeterminator';
+
+    const KEY_MIDDLEWARE_PLUGIN_MANAGER = 'middlewarePluginManager';
 
     /**
      * Can the factory create an instance for the service?
@@ -28,6 +30,8 @@ class LazyLoadPipeAbstractFactory implements AbstractFactoryInterface
      * @param  ContainerInterface $container
      * @param  string $requestedName
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function canCreate(ContainerInterface $container, $requestedName)
     {
@@ -42,27 +46,15 @@ class LazyLoadPipeAbstractFactory implements AbstractFactoryInterface
      * @param  string $requestedName
      * @param  null|array $options
      * @return object
-     * @throws ServiceNotFoundException if unable to resolve the service.
-     * @throws ServiceNotCreatedException if an exception is raised when
-     *     creating a service.
-     * @throws ContainerException if any other error occurs
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $config = $container->get('config');
-        if(is_string($config[static::KEY][$requestedName])) {
-            if($container->has($config[static::KEY][$requestedName])) {
-                $middlewareGetter = $container->get($config[static::KEY][$requestedName]);
-                $middlewareExtractor = new MiddlewarePluginManager($container);
-            } else {
-                throw new ServiceNotFoundException($config[static::KEY][$requestedName] . " service not found.");
-            }
-        } else {
-           //TODO: for more options...
-            $middlewareGetter = '';
-            $middlewareExtractor = '';
-        }
-        $lazyLoadPipe = new LazyLoadMiddleware($middlewareGetter, $middlewareExtractor, $requestedName);
-        return $lazyLoadPipe;
+        $serviceConfig = $config[static::KEY][$requestedName];
+        $middlewareDeterminator = $serviceConfig[static::KEY_MIDDLEWARE_DETERMINATOR];
+        $middlewarePluginManager = $serviceConfig[static::KEY_MIDDLEWARE_PLUGIN_MANAGER];
+        return new LazyLoadMiddleware($middlewareDeterminator, $middlewarePluginManager);
     }
 }
