@@ -12,10 +12,11 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use rollun\actionrender\Renderer\AbstractRenderer;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
-class HtmlRendererAction implements MiddlewareInterface
+class HtmlRenderer extends AbstractRenderer
 {
     /**
      * @var TemplateRendererInterface
@@ -42,7 +43,7 @@ class HtmlRendererAction implements MiddlewareInterface
      */
     public function process(Request $request, DelegateInterface $delegate)
     {
-        $data = $request->getAttribute('responseData');
+        $data = $request->getAttribute(static::RESPONSE_DATA);
         $name = $request->getAttribute(HtmlParamResolver::KEY_ATTRIBUTE_TEMPLATE_NAME);
 
         /** @var Response $response */
