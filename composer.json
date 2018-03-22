@@ -16,7 +16,6 @@
   ],
   "extra": {
     "zf": {
-      "component":  "rollun\\actionrender",
       "config-provider": "rollun\\actionrender\\ConfigProvider"
     }
   },
