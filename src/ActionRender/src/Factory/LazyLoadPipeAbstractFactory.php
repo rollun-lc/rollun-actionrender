@@ -10,8 +10,8 @@ namespace rollun\actionrender\Factory;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
-use rollun\actionrender\LazyLoadPipe;
-use rollun\actionrender\MiddlewareExtractor;
+use rollun\actionrender\LazyLoadMiddleware;
+use rollun\actionrender\MiddlewarePluginManager;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\AbstractFactoryInterface;
@@ -53,7 +53,7 @@ class LazyLoadPipeAbstractFactory implements AbstractFactoryInterface
         if(is_string($config[static::KEY][$requestedName])) {
             if($container->has($config[static::KEY][$requestedName])) {
                 $middlewareGetter = $container->get($config[static::KEY][$requestedName]);
-                $middlewareExtractor = new MiddlewareExtractor($container);
+                $middlewareExtractor = new MiddlewarePluginManager($container);
             } else {
                 throw new ServiceNotFoundException($config[static::KEY][$requestedName] . " service not found.");
             }
@@ -62,7 +62,7 @@ class LazyLoadPipeAbstractFactory implements AbstractFactoryInterface
             $middlewareGetter = '';
             $middlewareExtractor = '';
         }
-        $lazyLoadPipe = new LazyLoadPipe($middlewareGetter, $middlewareExtractor, $requestedName);
+        $lazyLoadPipe = new LazyLoadMiddleware($middlewareGetter, $middlewareExtractor, $requestedName);
         return $lazyLoadPipe;
     }
 }

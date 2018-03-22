@@ -17,7 +17,7 @@ class AbstractMiddlewarePipe extends MiddlewarePipe
 {
     /**
      * MainPipe constructor.
-     * @param $middlewares
+     * @param MiddlewareInterface[] $middlewares
      */
     public function __construct(array $middlewares)
     {

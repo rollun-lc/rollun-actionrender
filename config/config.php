@@ -13,6 +13,7 @@ $cacheConfig = [
 $aggregator = new ConfigAggregator([
     // Include cache configuration
     new ArrayProvider($cacheConfig),
+    \Zend\Expressive\Router\ConfigProvider::class,
 
     // Default App module config
 

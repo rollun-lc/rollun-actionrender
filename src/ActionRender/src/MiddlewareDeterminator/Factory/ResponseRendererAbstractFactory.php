@@ -6,11 +6,11 @@
  * Time: 15:31
  */
 
-namespace rollun\actionrender\LazyLoadMiddlewareGetter\Factory;
+namespace rollun\actionrender\MiddlewareDeterminator\Factory;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
-use rollun\actionrender\LazyLoadMiddlewareGetter\ResponseRenderer;
+use rollun\actionrender\MiddlewareDeterminator\ResponseRenderer;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\AbstractFactoryInterface;

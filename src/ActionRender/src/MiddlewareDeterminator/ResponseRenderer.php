@@ -6,12 +6,12 @@
  * Time: 12:55
  */
 
-namespace rollun\actionrender\LazyLoadMiddlewareGetter;
+namespace rollun\actionrender\MiddlewareDeterminator;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
-use rollun\actionrender\Interfaces\LazyLoadMiddlewareGetterInterface;
+use rollun\actionrender\Interfaces\MiddlewareDeterminatorInterface;
 
-class ResponseRenderer implements LazyLoadMiddlewareGetterInterface
+class ResponseRenderer implements MiddlewareDeterminatorInterface
 {
     /**
      * [
@@ -32,7 +32,7 @@ class ResponseRenderer implements LazyLoadMiddlewareGetterInterface
      * @param Request $request
      * @return array
      */
-    public function getLazyLoadMiddlewares(Request $request)
+    public function getMiddlewareServiceName(Request $request)
     {
         $accept = $request->getHeaderLine('Accept');
 

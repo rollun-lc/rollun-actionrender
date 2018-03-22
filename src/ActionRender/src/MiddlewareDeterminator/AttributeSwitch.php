@@ -6,14 +6,14 @@
  * Time: 13:15
  */
 
-namespace rollun\actionrender\LazyLoadMiddlewareGetter;
+namespace rollun\actionrender\MiddlewareDeterminator;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
-use rollun\actionrender\Interfaces\LazyLoadMiddlewareGetterInterface;
+use rollun\actionrender\Interfaces\MiddlewareDeterminatorInterface;
 use rollun\actionrender\RuntimeException;
 use Zend\Stratigility\MiddlewarePipe;
 
-class AttributeSwitch implements LazyLoadMiddlewareGetterInterface
+class AttributeSwitch implements MiddlewareDeterminatorInterface
 {
     /**
      * [
@@ -41,7 +41,7 @@ class AttributeSwitch implements LazyLoadMiddlewareGetterInterface
      * @param Request $request
      * @return array
      */
-    public function getLazyLoadMiddlewares(Request $request)
+    public function getMiddlewareServiceName(Request $request)
     {
         $middlewares = [];
         $attributeValue = $request->getAttribute($this->attributeName);

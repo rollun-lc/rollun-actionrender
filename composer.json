@@ -1,9 +1,9 @@
 {
   "name": "rollun-com/rollun-actionrender",
-  "description": "Skeleton for app or lib",
+  "description": "Lib for providing middleware pipe factory.",
   "minimum-stability": "stable",
   "license": "proprietary",
-  "type": "project",
+  "type": "library",
   "authors": [
     {
       "name": "avz-cmf",
@@ -14,20 +14,24 @@
       "email": "it.proffesor02@gmail.com"
     }
   ],
+  "extra": {
+    "zf": {
+      "component":  "rollun\\actionrender",
+      "config-provider": "rollun\\actionrender\\ConfigProvider"
+    }
+  },
   "require": {
-    "php": "^5.6 || ^7.0",
+    "php": "^7.0",
     "zendframework/zend-component-installer": "^1.0",
-    "zendframework/zend-config-aggregator": "^1.0",
-    "zendframework/zend-expressive": "^2.0.2",
-    "zendframework/zend-expressive-helpers": "^4.0",
+    "zendframework/zend-expressive": "^2.2",
     "zendframework/zend-stdlib": "^3.1",
     "zendframework/zend-servicemanager": "^3.3",
-    "zendframework/zend-expressive-fastroute": "^2.0",
     "zendframework/zend-expressive-zendviewrenderer": "^1.4",
-    "rollun-com/rollun-installer": "^4.0",
-    "zendframework/zend-http": "^2.5"
+    "rollun-com/rollun-installer": "^4.0"
   },
   "require-dev": {
+    "zendframework/zend-expressive-fastroute": "^2.2",
+    "zendframework/zend-config-aggregator": "^1.0",
     "phpunit/phpunit": "^5.7.15",
     "squizlabs/php_codesniffer": "^2.8.1",
     "zfcampus/zf-development-mode": "^3.1",

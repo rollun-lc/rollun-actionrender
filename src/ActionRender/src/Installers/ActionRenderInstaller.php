@@ -11,7 +11,7 @@ namespace rollun\actionrender\Installers;
 use rollun\actionrender\Factory\ActionRenderAbstractFactory;
 use rollun\actionrender\Factory\LazyLoadPipeAbstractFactory;
 use rollun\actionrender\Factory\MiddlewarePipeAbstractFactory;
-use rollun\actionrender\LazyLoadMiddlewareGetter\Factory\ResponseRendererAbstractFactory;
+use rollun\actionrender\MiddlewareDeterminator\Factory\ResponseRendererAbstractFactory;
 use rollun\actionrender\ReturnMiddleware;
 use rollun\installer\Install\InstallerAbstract;
 

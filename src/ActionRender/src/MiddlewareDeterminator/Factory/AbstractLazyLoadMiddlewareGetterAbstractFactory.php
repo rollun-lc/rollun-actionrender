@@ -6,10 +6,10 @@
  * Time: 17:04
  */
 
-namespace rollun\actionrender\LazyLoadMiddlewareGetter\Factory;
+namespace rollun\actionrender\MiddlewareDeterminator\Factory;
 
 use Interop\Container\ContainerInterface;
-use rollun\actionrender\Interfaces\LazyLoadMiddlewareGetterInterface;
+use rollun\actionrender\Interfaces\MiddlewareDeterminatorInterface;
 use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 
 abstract class AbstractLazyLoadMiddlewareGetterAbstractFactory implements AbstractFactoryInterface
@@ -22,7 +22,7 @@ abstract class AbstractLazyLoadMiddlewareGetterAbstractFactory implements Abstra
 
     const KEY_MIDDLEWARE = 'middleware';
 
-    const EXTENDER_CLASS = LazyLoadMiddlewareGetterInterface::class;
+    const EXTENDER_CLASS = MiddlewareDeterminatorInterface::class;
 
     /**
      * Can the factory create an instance for the service?

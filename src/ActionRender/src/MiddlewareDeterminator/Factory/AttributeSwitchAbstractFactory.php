@@ -6,15 +6,17 @@
  * Time: 17:02
  */
 
-namespace rollun\actionrender\LazyLoadMiddlewareGetter\Factory;
+namespace rollun\actionrender\MiddlewareDeterminator\Factory;
 
 use Interop\Container\ContainerInterface;
-use rollun\actionrender\LazyLoadMiddlewareGetter\Attribute;
+use rollun\actionrender\MiddlewareDeterminator\AttributeSwitch;
 
-class AttributeAbstractFactory extends AbstractLazyLoadMiddlewareGetterAbstractFactory
+class AttributeSwitchAbstractFactory extends AbstractLazyLoadMiddlewareGetterAbstractFactory
 {
 
-    const EXTENDER_CLASS = Attribute::class;
+    const EXTENDER_CLASS = AttributeSwitch::class;
+
+    const DEFAULT_ATTRIBUTE_NAME = 'switchAttribute';
 
     /**
      * Create an object
@@ -29,6 +31,7 @@ class AttributeAbstractFactory extends AbstractLazyLoadMiddlewareGetterAbstractF
         $config = $container->get('config');
         $factoryConfig = $config[static::KEY][$requestedName];
         $class = $factoryConfig[static::KEY_CLASS];
-        return new $class($factoryConfig[static::KEY_ATTRIBUTE_NAME]);
+        $attributeName = isset($factoryConfig[static::KEY_ATTRIBUTE_NAME]) ? $factoryConfig[static::KEY_ATTRIBUTE_NAME] : static::DEFAULT_ATTRIBUTE_NAME;
+        return new $class($factoryConfig[static::KEY_MIDDLEWARE], $attributeName);
     }
 }
