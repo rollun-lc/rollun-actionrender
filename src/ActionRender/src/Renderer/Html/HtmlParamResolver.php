@@ -29,11 +29,18 @@ class HtmlParamResolver implements MiddlewareInterface
      */
     public function process(Request $request, DelegateInterface $delegate)
     {
+        /** @var RouteResult $routeResult */
         $routeResult = $request->getAttribute(RouteResult::class);
 
         if($request->getAttribute(static::KEY_ATTRIBUTE_TEMPLATE_NAME) === null){
-            $routeName = 'app::';
-            $routeName .= isset($routeResult) ? $routeResult->getMatchedRouteName() : "default-page";
+            if(!isset($routeResult)) {
+                throw new \RuntimeException(RouteResult::class . " not found in request attribute.");
+            }
+            $routeName = $routeResult->getMatchedRouteName();
+            $routeNamePart = explode("-", $routeName, 1);
+            $templateNamespace = $routeNamePart[0];
+            $templateName = $routeNamePart[1];
+            $routeName = "$templateNamespace::$templateName";
             $request = $request->withAttribute(static::KEY_ATTRIBUTE_TEMPLATE_NAME, $routeName);
         };
 
