@@ -7,6 +7,10 @@
  */
 
 namespace rollun\example\actionrender;
+use Zend\Expressive\Template\TemplateRendererInterface;
+use Zend\Expressive\ZendView\HelperPluginManagerFactory;
+use Zend\Expressive\ZendView\ZendViewRendererFactory;
+use Zend\View\HelperPluginManager;
 
 
 /**
@@ -27,7 +31,8 @@ class ConfigProvider
     public function __invoke()
     {
         return [
-            'templates' => $this->getTemplates()
+            'templates' => $this->getTemplates(),
+            "dependencies" => $this->getDependencies(),
         ];
     }
 
@@ -39,10 +44,24 @@ class ConfigProvider
     public function getTemplates()
     {
         return [
+            'layout' => 'ar-layout::default',
             'paths' => [
                 'ar-app'    => [__DIR__ . '/../templates/app'],
                 'ar-error'  => [__DIR__ . '/../templates/error'],
                 'ar-layout' => [__DIR__ . '/../templates/layout'],
+            ],
+        ];
+    }
+
+    /**
+     * Returns the dependencies configuration
+     */
+    public function getDependencies()
+    {
+        return [
+            'factories' => [
+                TemplateRendererInterface::class => ZendViewRendererFactory::class,
+                HelperPluginManager::class => HelperPluginManagerFactory::class,
             ],
         ];
     }
