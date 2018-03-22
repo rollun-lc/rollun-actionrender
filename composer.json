@@ -26,10 +26,10 @@
     "zendframework/zend-expressive": "^2.2",
     "zendframework/zend-stdlib": "^3.1",
     "zendframework/zend-servicemanager": "^3.3",
-    "zendframework/zend-expressive-zendviewrenderer": "^1.4",
     "rollun-com/rollun-installer": "^4.0"
   },
   "require-dev": {
+    "zendframework/zend-expressive-zendviewrenderer": "^1.4",
     "zendframework/zend-expressive-fastroute": "^2.2",
     "zendframework/zend-config-aggregator": "^1.0",
     "phpunit/phpunit": "^5.7.15",
@@ -44,6 +44,7 @@
   },
   "autoload-dev": {
     "psr-4": {
+      "rollun\\examples\\actionrender\\": "src/Example/src",
       "rollun\\test\\actionrender\\": "test/ActionRenderTest"
     }
   },

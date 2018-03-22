@@ -6,7 +6,7 @@
  * Time: 12:26
  */
 
-namespace rollun\actionrender\Example\Api;
+namespace rollun\example\actionrender\Action;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
@@ -19,7 +19,6 @@ use Zend\Expressive\Template\TemplateRendererInterface;
 class HelloAction implements MiddlewareInterface
 {
 
-
     /**
      * Process an incoming server request and return a response, optionally delegating
      * to the next middleware component to create the response.
@@ -31,7 +30,6 @@ class HelloAction implements MiddlewareInterface
      */
     public function process(Request $request, DelegateInterface $delegate)
     {
-
         $name = $request->getAttribute('name');
         $str = "[" . constant('APP_ENV') . "] Hello $name!";
 

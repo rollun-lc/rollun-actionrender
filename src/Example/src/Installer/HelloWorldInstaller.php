@@ -6,13 +6,12 @@
  * Time: 12:59
  */
 
-namespace rollun\actionrender\Installers;
+namespace rollun\example\actionrender\Installers;
 
-use rollun\actionrender\Example\Api\HelloAction;
 use rollun\actionrender\Factory\ActionRenderAbstractFactory;
 use rollun\actionrender\Installers\ActionRenderInstaller;
 use rollun\actionrender\Installers\BasicRenderInstaller;
-use rollun\installer\Command;
+use rollun\example\actionrender\Action\HelloAction;
 use rollun\installer\Install\InstallerAbstract;
 
 class HelloWorldInstaller extends InstallerAbstract
