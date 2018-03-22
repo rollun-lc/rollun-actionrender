@@ -8,11 +8,11 @@
 
 namespace rollun\actionrender\Installers;
 
-use rollun\actionrender\Factory\LazyLoadPipeAbstractFactory;
+use rollun\actionrender\Factory\LazyLoadMiddlewareAbstractFactory;
 use rollun\actionrender\Factory\MiddlewarePipeAbstractFactory;
 use rollun\installer\Install\InstallerAbstract;
 
-class LazyLoadPipeInstaller extends InstallerAbstract
+class LazyLoadMiddlewareInstaller extends InstallerAbstract
 {
 
     /**
@@ -24,7 +24,7 @@ class LazyLoadPipeInstaller extends InstallerAbstract
         return [
             'dependencies' => [
                 'abstract_factories' => [
-                    LazyLoadPipeAbstractFactory::class,
+                    LazyLoadMiddlewareAbstractFactory::class,
                 ],
             ],
         ];
@@ -61,7 +61,7 @@ class LazyLoadPipeInstaller extends InstallerAbstract
         $config = $this->container->get('config');
         return (
             isset($config['dependencies']['abstract_factories']) &&
-            in_array(LazyLoadPipeAbstractFactory::class, $config['dependencies']['abstract_factories'])
+            in_array(LazyLoadMiddlewareAbstractFactory::class, $config['dependencies']['abstract_factories'])
         );
     }
 }
