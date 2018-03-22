@@ -9,7 +9,7 @@
 namespace rollun\actionrender\MiddlewareDeterminator;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
-use rollun\actionrender\Interfaces\MiddlewareDeterminatorInterface;
+use rollun\actionrender\MiddlewareDeterminator\Interfaces\MiddlewareDeterminatorInterface;
 
 class ResponseRenderer implements MiddlewareDeterminatorInterface
 {
@@ -22,7 +22,10 @@ class ResponseRenderer implements MiddlewareDeterminatorInterface
      */
     protected $middlewares;
 
-
+    /**
+     * ResponseRenderer constructor.
+     * @param string[] $middlewares
+     */
     public function __construct(array $middlewares)
     {
         $this->middlewares = $middlewares;
@@ -30,7 +33,7 @@ class ResponseRenderer implements MiddlewareDeterminatorInterface
 
     /**
      * @param Request $request
-     * @return array
+     * @return string
      */
     public function getMiddlewareServiceName(Request $request)
     {
@@ -38,9 +41,9 @@ class ResponseRenderer implements MiddlewareDeterminatorInterface
 
         foreach ($this->middlewares as $acceptTypePattern => $middlewareService) {
             if (preg_match($acceptTypePattern, $accept)) {
-                return [ $middlewareService ];
+                return $middlewareService;
             }
         }
-        return [];
+        throw new MiddlewareDeterminatorException("Middleware service name not determinate.");
     }
 }

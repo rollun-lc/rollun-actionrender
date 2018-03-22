@@ -9,9 +9,7 @@
 namespace rollun\actionrender\MiddlewareDeterminator;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
-use rollun\actionrender\Interfaces\MiddlewareDeterminatorInterface;
-use rollun\actionrender\RuntimeException;
-use Zend\Stratigility\MiddlewarePipe;
+use rollun\actionrender\MiddlewareDeterminator\Interfaces\MiddlewareDeterminatorInterface;
 
 class AttributeSwitch implements MiddlewareDeterminatorInterface
 {

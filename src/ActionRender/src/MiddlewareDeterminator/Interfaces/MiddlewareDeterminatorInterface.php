@@ -6,14 +6,14 @@
  * Time: 11:20
  */
 
-namespace rollun\actionrender\Interfaces;
+namespace rollun\actionrender\MiddlewareDeterminator\Interfaces;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 interface MiddlewareDeterminatorInterface
 {
     /**
-     * Return middleware service name 
+     * Return middleware service name
      * @param Request $request
      * @return string
      */
