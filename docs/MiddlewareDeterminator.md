@@ -19,6 +19,7 @@ MiddlewareDeterminator - сервис реализущий
 
 Фабрика предоставляет следующие ключи для настройки сервиса:
 * `AbstractParamAbstractFactory::KEY` - ключь для указания начала конфига фабрки.
+* `AbstractParamAbstractFactory::KEY_CLASS` - имя класса реализации **AbstractParam**
 * `AbstractParamAbstractFactory::KEY_NAME` - имя параметра запроса
 * `AbstractParamAbstractFactory::KEY_DEFAULT_VALUE` - имя сервиса middleware по умолчанию.
 
@@ -26,19 +27,20 @@ MiddlewareDeterminator - сервис реализущий
 ```php
 AbstractParamAbstractFactory::KEY => [
     "testActionRender" => [
-        AbstractSwitchAbstractFactory::KEY_CLASS => "ParamClass"
+        AbstractParamAbstractFactory::KEY_CLASS => "ParamClass"
         AbstractParamAbstractFactory::KEY_NAME => "testAttribute"
         AbstractParamAbstractFactory::KEY_DEFAULT_VALUE => "testMiddleware",
     ]
 ]
 ```
 
-
 #### AttributeParam
 
 `\rollun\actionrender\MiddlewareDeterminator\AttributeParam` - реализация **AbstractParam** позволяющая создавать сервис на основании
 атрибута запроса или значении по умолчанию.
 
+Для подключения фабрики `\rollun\actionrender\MiddlewareDeterminator\Factory\AttributeParamAbstractFactory`
+можете использовать installer `rollun\actionrender\MiddlewareDeterminator\Installers\AttributeParamInstaller`
 
 ## AbstractSwitch
 Базовый класс `\rollun\actionrender\MiddlewareDeterminator\AbstractSwitch`
@@ -50,6 +52,7 @@ AbstractParamAbstractFactory::KEY => [
 
 Фабрика предоставляет следующие ключи для настройки сервиса:
 * `AbstractSwitchAbstractFactory::KEY` - ключь для указания начала конфига фабрки.
+* `AbstractSwitchAbstractFactory::KEY_CLASS` - имя класса реализации **AbstractSwitch**
 * `AbstractSwitchAbstractFactory::KEY_NAME` - имя параметра запроса
 * `AbstractSwitchAbstractFactory::KEY_MIDDLEWARE_MATCHING` - массив созержащий
 в качетсве ключа регулярное выражение условия, а в качетсве значения - имя сервиса middleware.
@@ -74,7 +77,19 @@ AbstractSwitchAbstractFactory::KEY => [
 реализация **AbstractSwitch** позволяющая получать сервис на основании
 значения из атрибута запроса.
 
+Для подключения фабрики `\rollun\actionrender\MiddlewareDeterminator\Factory\AttributeSwitchAbstractFactory`
+можете использовать installer `rollun\actionrender\MiddlewareDeterminator\Installers\AttributeSwitchInstaller`
+
 #### HeaderSwitch
 `\rollun\actionrender\MiddlewareDeterminator\HeaderSwitch` -
 реализация **AbstractSwitch** позволяющая получать сервис на основании
 значения из заголовка запроса.
+
+Для подключения фабрики `\rollun\actionrender\MiddlewareDeterminator\Factory\HeaderSwitchAbstractFactory`
+можете использовать installer `rollun\actionrender\MiddlewareDeterminator\Installers\HeaderSwitchInstaller`
+
+
+
+
+
+
