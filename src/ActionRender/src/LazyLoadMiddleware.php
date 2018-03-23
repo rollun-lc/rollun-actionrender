@@ -11,7 +11,7 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use rollun\actionrender\Interfaces\MiddlewareDeterminatorInterface;
+use rollun\actionrender\MiddlewareDeterminator\Interfaces\MiddlewareDeterminatorInterface;
 
 /**
  *
