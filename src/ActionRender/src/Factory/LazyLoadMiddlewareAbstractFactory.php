@@ -53,8 +53,12 @@ class LazyLoadMiddlewareAbstractFactory implements AbstractFactoryInterface
     {
         $config = $container->get('config');
         $serviceConfig = $config[static::KEY][$requestedName];
-        $middlewareDeterminator = $serviceConfig[static::KEY_MIDDLEWARE_DETERMINATOR];
-        $middlewarePluginManager = $serviceConfig[static::KEY_MIDDLEWARE_PLUGIN_MANAGER];
+        $middlewareDeterminator = $container->get($serviceConfig[static::KEY_MIDDLEWARE_DETERMINATOR]);
+        if(isset($serviceConfig[static::KEY_MIDDLEWARE_PLUGIN_MANAGER])) {
+            $middlewarePluginManager = $container->get($serviceConfig[static::KEY_MIDDLEWARE_PLUGIN_MANAGER]);
+        } else {
+            $middlewarePluginManager = $container->get(MiddlewarePluginManager::class);
+        }
         return new LazyLoadMiddleware($middlewareDeterminator, $middlewarePluginManager);
     }
 }
