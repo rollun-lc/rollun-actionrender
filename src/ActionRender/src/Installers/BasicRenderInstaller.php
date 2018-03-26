@@ -8,16 +8,17 @@
 
 namespace rollun\actionrender\Installers;
 
-use rollun\actionrender\Factory\ActionRenderAbstractFactory;
-use rollun\actionrender\Factory\LazyLoadPipeAbstractFactory;
+use rollun\actionrender\Factory\LazyLoadMiddlewareAbstractFactory;
 use rollun\actionrender\Factory\MiddlewarePipeAbstractFactory;
-use rollun\actionrender\LazyLoadMiddlewareGetter\Factory\AbstractLazyLoadMiddlewareGetterAbstractFactory;
-use rollun\actionrender\LazyLoadMiddlewareGetter\Factory\ResponseRendererAbstractFactory;
-use rollun\actionrender\LazyLoadMiddlewareGetter\ResponseRenderer;
+use rollun\actionrender\MiddlewareDeterminator\Factory\AbstractMiddlewareDeterminatorAbstractFactory;
+use rollun\actionrender\MiddlewareDeterminator\HeaderSwitch;
+use rollun\actionrender\MiddlewareDeterminator\Installers\HeaderSwitchInstaller as HeaderSwitchMiddlewareDeterminatorInstaller;
+use rollun\actionrender\MiddlewareDeterminator\Factory\HeaderSwitchAbstractFactory as HeaderSwitchMiddlewareDeterminatorAbstractFactory;
+use rollun\actionrender\MiddlewarePluginManager;
+use rollun\actionrender\Renderer\Html\Factory\HtmlRendererFactory;
 use rollun\actionrender\Renderer\Html\HtmlParamResolver;
-use rollun\actionrender\Renderer\Html\HtmlRendererAction;
-use rollun\actionrender\Renderer\Html\HtmlRendererFactory;
-use rollun\actionrender\Renderer\Json\JsonRendererAction;
+use rollun\actionrender\Renderer\Html\HtmlRenderer;
+use rollun\actionrender\Renderer\Json\JsonRenderer;
 use rollun\actionrender\ReturnMiddleware;
 use rollun\installer\Install\InstallerAbstract;
 
@@ -32,16 +33,13 @@ class BasicRenderInstaller extends InstallerAbstract
     {
         $dependencyConfig =  [
             'dependencies' => [
-                'abstract_factories' => [
-                    ResponseRendererAbstractFactory::class,
-                ],
                 'invokables' => [
                     HtmlParamResolver::class => HtmlParamResolver::class,
-                    JsonRendererAction::class => JsonRendererAction::class,
+                    JsonRenderer::class => JsonRenderer::class,
                     ReturnMiddleware::class => ReturnMiddleware::class
                 ],
                 'factories' => [
-                    HtmlRendererAction::class => HtmlRendererFactory::class
+                    HtmlRenderer::class => HtmlRendererFactory::class
                 ],
             ],
         ];
@@ -50,22 +48,25 @@ class BasicRenderInstaller extends InstallerAbstract
                 'htmlReturner' => [
                     MiddlewarePipeAbstractFactory::KEY_MIDDLEWARES => [
                         HtmlParamResolver::class,
-                        HtmlRendererAction::class
+                        HtmlRenderer::class
                     ]
                 ]
             ],
-            AbstractLazyLoadMiddlewareGetterAbstractFactory::KEY => [
+            AbstractMiddlewareDeterminatorAbstractFactory::KEY => [
                 'simpleHtmlJsonRenderer' => [
-                    ResponseRendererAbstractFactory::KEY_MIDDLEWARE => [
-                        '/application\/json/' => JsonRendererAction::class,
+                    HeaderSwitchMiddlewareDeterminatorAbstractFactory::KEY_CLASS => HeaderSwitch::class,
+                    HeaderSwitchMiddlewareDeterminatorAbstractFactory::KEY_NAME=> "Accept",
+                    HeaderSwitchMiddlewareDeterminatorAbstractFactory::KEY_MIDDLEWARE_MATCHING => [
+                        '/application\/json/' => JsonRenderer::class,
                         '/text\/html/' => 'htmlReturner'
                     ],
-                    ResponseRendererAbstractFactory::KEY_CLASS => ResponseRenderer::class,
                 ],
             ],
-
-            LazyLoadPipeAbstractFactory::KEY => [
-                'simpleHtmlJsonRendererLLPipe' => 'simpleHtmlJsonRenderer'
+            LazyLoadMiddlewareAbstractFactory::KEY => [
+                'simpleHtmlJsonRendererLLPipe' => [
+                    LazyLoadMiddlewareAbstractFactory::KEY_MIDDLEWARE_PLUGIN_MANAGER => MiddlewarePluginManager::class,
+                    LazyLoadMiddlewareAbstractFactory::KEY_MIDDLEWARE_DETERMINATOR => "simpleHtmlJsonRenderer"
+                ]
             ],
         ];
         $config =  array_merge($dependencyConfig, $renderConfig);
@@ -90,7 +91,7 @@ class BasicRenderInstaller extends InstallerAbstract
     {
         switch ($lang) {
             case "ru":
-                $description = "Позволяет использовать базовый рендер.";
+                $description = "Позволяет использовать базовый render middleware, который отдает данные на основании ожидаемого ответа.";
                 break;
             default:
                 $description = "Does not exist.";
@@ -102,24 +103,23 @@ class BasicRenderInstaller extends InstallerAbstract
     {
         $config = $this->container->get('config');
         return (
-            isset($config['dependencies']['abstract_factories']) &&
-            in_array(ResponseRendererAbstractFactory::class, $config['dependencies']['abstract_factories']) &&
             isset($config['dependencies']['invokables'][HtmlParamResolver::class]) &&
-            isset($config['dependencies']['invokables'][JsonRendererAction::class]) &&
+            isset($config['dependencies']['invokables'][JsonRenderer::class]) &&
             isset($config['dependencies']['invokables'][ReturnMiddleware::class]) &&
             isset($config['dependencies']['invokables']) &&
             $config['dependencies']['invokables'][HtmlParamResolver::class] === HtmlParamResolver::class &&
-            $config['dependencies']['invokables'][JsonRendererAction::class] === JsonRendererAction::class &&
+            $config['dependencies']['invokables'][JsonRenderer::class] === JsonRenderer::class &&
             $config['dependencies']['invokables'][ReturnMiddleware::class] === ReturnMiddleware::class &&
-            isset($config['dependencies']['factories'][HtmlRendererAction::class]) &&
-            $config['dependencies']['factories'][HtmlRendererAction::class] === HtmlRendererFactory::class
+            isset($config['dependencies']['factories'][HtmlRenderer::class]) &&
+            $config['dependencies']['factories'][HtmlRenderer::class] === HtmlRendererFactory::class
         );
     }
 
     public function getDependencyInstallers()
     {
         return [
-            LazyLoadPipeInstaller::class,
+            HeaderSwitchMiddlewareDeterminatorInstaller::class,
+            LazyLoadMiddlewareInstaller::class,
             MiddlewarePipeInstaller::class,
         ];
     }

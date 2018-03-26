@@ -10,7 +10,7 @@ namespace rollun\actionrender\Factory;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
-use rollun\actionrender\AbstractMiddlewarePipe;
+use rollun\actionrender\MiddlewarePipeAbstract;
 use Zend\Diactoros\Response\EmptyResponse;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\Exception\ServiceNotFoundException;
@@ -23,8 +23,7 @@ use Zend\Stratigility\MiddlewarePipe;
 
 class MiddlewarePipeAbstractFactory implements AbstractFactoryInterface
 {
-
-    const KEY = 'middleware_pipe_abstract';
+    const KEY = MiddlewarePipeAbstractFactory::class;
 
     const KEY_MIDDLEWARES = 'middlewares';
 
@@ -35,7 +34,8 @@ class MiddlewarePipeAbstractFactory implements AbstractFactoryInterface
      * @param  string $requestedName
      * @param  null|array $options
      * @return object
-     * @throws \Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
@@ -51,7 +51,7 @@ class MiddlewarePipeAbstractFactory implements AbstractFactoryInterface
         }
 
         ksort($returnMiddlewares);
-        return new AbstractMiddlewarePipe($returnMiddlewares);
+        return new MiddlewarePipeAbstract($returnMiddlewares);
     }
 
     /**
@@ -60,11 +60,13 @@ class MiddlewarePipeAbstractFactory implements AbstractFactoryInterface
      * @param  ContainerInterface $container
      * @param  string $requestedName
      * @return bool
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function canCreate(ContainerInterface $container, $requestedName)
     {
         $config = $container->get('config');
-        if (isset($config[static::KEY][$requestedName][static::KEY_MIDDLEWARES])) {
+        if (isset($config[static::KEY][$requestedName])) {
             return true;
         }
         return false;

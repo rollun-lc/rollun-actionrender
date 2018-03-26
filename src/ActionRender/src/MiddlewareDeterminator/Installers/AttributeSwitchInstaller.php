@@ -1,23 +1,18 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: root
- * Date: 13.03.17
- * Time: 11:32
+ * User: victorsecuring
+ * Date: 22.03.18
+ * Time: 4:08 PM
  */
 
-namespace rollun\actionrender\Installers;
+namespace rollun\actionrender\MiddlewareDeterminator\Installers;
 
-use rollun\actionrender\Factory\ActionRenderAbstractFactory;
-use rollun\actionrender\Factory\LazyLoadMiddlewareAbstractFactory;
-use rollun\actionrender\Factory\MiddlewarePipeAbstractFactory;
-use rollun\actionrender\MiddlewareDeterminator\Factory\ResponseRendererAbstractFactory;
-use rollun\actionrender\ReturnMiddleware;
+use rollun\actionrender\MiddlewareDeterminator\Factory\AttributeSwitchAbstractFactory;
 use rollun\installer\Install\InstallerAbstract;
 
-class ActionRenderInstaller extends InstallerAbstract
+class AttributeSwitchInstaller extends InstallerAbstract
 {
-
     /**
      * install
      * @return array
@@ -27,10 +22,7 @@ class ActionRenderInstaller extends InstallerAbstract
         return [
             'dependencies' => [
                 'abstract_factories' => [
-                    ActionRenderAbstractFactory::class,
-                ],
-                'invokables' => [
-                    ReturnMiddleware::class => ReturnMiddleware::class
+                    AttributeSwitchAbstractFactory::class,
                 ],
             ],
         ];
@@ -54,7 +46,7 @@ class ActionRenderInstaller extends InstallerAbstract
     {
         switch ($lang) {
             case "ru":
-                $description = "Позволяет создавать связки middleware типа ActionRender";
+                $description = "Позволяет создавать SwitchMiddlewareDeterminator на основани атрибутов запроса";
                 break;
             default:
                 $description = "Does not exist.";
@@ -67,9 +59,7 @@ class ActionRenderInstaller extends InstallerAbstract
         $config = $this->container->get('config');
         return (
             isset($config['dependencies']['abstract_factories']) &&
-            isset($config['dependencies']['invokables']) &&
-            in_array(ActionRenderAbstractFactory::class, $config['dependencies']['abstract_factories']) &&
-            in_array(ReturnMiddleware::class, $config['dependencies']['invokables'])
+            in_array(AttributeSwitchAbstractFactory::class, $config['dependencies']['abstract_factories'])
         );
     }
 }

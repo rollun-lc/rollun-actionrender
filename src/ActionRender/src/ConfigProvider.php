@@ -8,6 +8,7 @@
 
 namespace rollun\actionrender;
 
+use rollun\actionrender\Factory\MiddlewarePluginManagerFactory;
 
 /**
  * The configuration provider for the App module
@@ -27,7 +28,7 @@ class ConfigProvider
     public function __invoke()
     {
         return [
-            'templates'    => $this->getTemplates()
+            'dependencies' => $this->getDependencies()
         ];
     }
 
@@ -36,13 +37,22 @@ class ConfigProvider
      *
      * @return array
      */
-    public function getTemplates()
+    public function getDependencies()
     {
+        // Provides application-wide services.
+        // We recommend using fully-qualified class names whenever possible as
+        // service names.
         return [
-            'paths' => [
-                'app'    => [__DIR__ . '/../templates/app'],
-                'error'  => [__DIR__ . '/../templates/error'],
-                'layout' => [__DIR__ . '/../templates/layout'],
+            // Use 'aliases' to alias a service name to another service. The
+            // key is the alias name, the value is the service to which it points.
+            'aliases' => [],
+            // Use 'invokables' for constructor-less services, or services that do
+            // not require arguments to the constructor. Map a service name to the
+            // class name.
+            'invokables' => [],
+            // Use 'factories' for services provided by callbacks/factory classes.
+            'factories' => [
+                MiddlewarePluginManager::class => MiddlewarePluginManagerFactory::class
             ],
         ];
     }

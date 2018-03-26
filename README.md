@@ -1,66 +1,20 @@
 # rollun-actionrender
 
+Библиотека предоставляет набор реализаций и фабрик, для гибкой работы c middleware.
+
 ---
 ## [Оглавление](https://github.com/rollun-com/rollun-skeleton/blob/master/docs/Contents.md)
+## [Стандарты](https://github.com/rollun-com/all-standards.git)
 
----
 
-Каркас для создания приложений. 
+* [ActionRender QuickStart](docs/QuickStart.md)
 
-* [Стандарты](https://github.com/rollun-com/rollun-skeleton/blob/master/docs/Standarts.md)
+* [ActionRender](docs/ActionRender.md)
 
-* [Quickstart](https://github.com/avz-cmf/saas/blob/master/docs/Quickstart.md)
+* [LazyLoadMiddleware](docs/LazyLoadMiddleware.md)
 
-* [ActionRenderAbstractFactory](https://github.com/rollun-com/rollun-actionrender/blob/master/docs/ActionRenderAbstractFactory.md)
+* [MiddlewarePipe](docs/MiddlewarePipe.md)
 
-* [LazyLoadDirectAbstractFactory](https://github.com/rollun-com/rollun-actionrender/blob/master/docs/LazyLoadDirectAbstractFactory.md)
+* [BasicRenderer](docs/BasicRenderer.md)
 
-* [LazyLoadSwitchAbstractFactory](https://github.com/rollun-com/rollun-actionrender/blob/master/docs/LazyLoadSwitchAbstractFactory.md)
-
-* [MiddlewarePipeAbstractFactory](https://github.com/rollun-com/rollun-actionrender/blob/master/docs/MiddlewarePipeAbstractFactory.md)
-
-* [ResponseRendererAbstractFactory](https://github.com/rollun-com/rollun-actionrender/blob/master/docs/ResponseRendererAbstractFactory.md)
-
-* [ActionRender QuickStart](https://github.com/rollun-com/rollun-actionrender/blob/master/docs/QuickStart.md)
-
-#ActionRender
-
-Для более детального ознакомления обратитесь в [ActionRender QuickStart](https://github.com/rollun-com/rollun-actionrender/blob/master/docs/QuickStart.md)
-
-Цепочка Middleware поделенная на три логические части Action, Render, Returner.
-
-## Последовательость работы ActionRender
-
-В самом простом случае у нас существует два **Middleware** 
-
-1) **Action** - Выполняет определенное действие. Результат должен пометсить в атребут запроста `responseData`
-
-2) **Render** - Создает ответ и кладет его в атрибут запроса с именем `Psr\Http\Message\ResponseInterface`.
-
-Теоретически **Render** может вернуть ответ, но мы рекомендуем использовать для этого **Returner**.
-Он достанеи Response из атрибута запроста и вернет его пользователю.
-
-3) **Returner** - возвращает результат. 
-Моежт использоваться в качестве аспекта.
-
-Каждый из эих двух **Middleware** могут быть заменены на двумя **Middleware**
-
-* Для **Action**
-
-    1) **ParamResolver** - выкусывает нужные параметры акшену из запроса и кладет их в атрибуты.
-    
-    2) **Action** -  выполняет действие и результат кладет в `responceData`.
- 
-* Соответсвенно для **Render**
- 
-    1) **ParamResolver** - выкусывает нужные параметры вьюверу из запроса и кладет их в атрибуты.
-    
-    2) **Render** -  выполняет отрисовку результата и возвращает пользователю
-
-## Замечания
-
-* Каждый из **Middleware** может быть **Middleware**, **pipeLine** либо **LazyLoadFactory** (Которая вернет **Middleware**).
-    > Пример [**LazyLoadFactory** -> ResponseRendererAbstractFactory](../src/ActionRender/Renderer/ResponseRendererAbstractFactory.php)
-
-* **LazyLoadFactory** не могут передавать какие то занчения в **Middleware** по средсву **Request**.
-Для этого стоит использовать либо параметры контейнера либо **ParamResolver Middleware**.
+* [MiddlewareDeterminator](docs/MiddlewareDeterminator.md)

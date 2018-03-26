@@ -3,19 +3,16 @@
  * Created by PhpStorm.
  * User: root
  * Date: 13.03.17
- * Time: 11:32
+ * Time: 12:50
  */
 
 namespace rollun\actionrender\Installers;
 
-use rollun\actionrender\Factory\ActionRenderAbstractFactory;
 use rollun\actionrender\Factory\LazyLoadMiddlewareAbstractFactory;
 use rollun\actionrender\Factory\MiddlewarePipeAbstractFactory;
-use rollun\actionrender\MiddlewareDeterminator\Factory\ResponseRendererAbstractFactory;
-use rollun\actionrender\ReturnMiddleware;
 use rollun\installer\Install\InstallerAbstract;
 
-class ActionRenderInstaller extends InstallerAbstract
+class LazyLoadMiddlewareInstaller extends InstallerAbstract
 {
 
     /**
@@ -27,10 +24,7 @@ class ActionRenderInstaller extends InstallerAbstract
         return [
             'dependencies' => [
                 'abstract_factories' => [
-                    ActionRenderAbstractFactory::class,
-                ],
-                'invokables' => [
-                    ReturnMiddleware::class => ReturnMiddleware::class
+                    LazyLoadMiddlewareAbstractFactory::class,
                 ],
             ],
         ];
@@ -54,7 +48,7 @@ class ActionRenderInstaller extends InstallerAbstract
     {
         switch ($lang) {
             case "ru":
-                $description = "Позволяет создавать связки middleware типа ActionRender";
+                $description = "Позволяет создавать связки middleware типа LazyLoadPipe.";
                 break;
             default:
                 $description = "Does not exist.";
@@ -67,9 +61,7 @@ class ActionRenderInstaller extends InstallerAbstract
         $config = $this->container->get('config');
         return (
             isset($config['dependencies']['abstract_factories']) &&
-            isset($config['dependencies']['invokables']) &&
-            in_array(ActionRenderAbstractFactory::class, $config['dependencies']['abstract_factories']) &&
-            in_array(ReturnMiddleware::class, $config['dependencies']['invokables'])
+            in_array(LazyLoadMiddlewareAbstractFactory::class, $config['dependencies']['abstract_factories'])
         );
     }
 }
