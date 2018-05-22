@@ -37,9 +37,14 @@ class HtmlParamResolver implements MiddlewareInterface
                 throw new \RuntimeException(RouteResult::class . " not found in request attribute.");
             }
             $routeName = $routeResult->getMatchedRouteName();
-            $routeNamePart = explode("-", $routeName, 1);
-            $templateNamespace = $routeNamePart[0];
-            $templateName = $routeNamePart[1];
+            $routeNamePart = explode("-", $routeName, 2);
+            if(count($routeNamePart) == 1) {
+                $templateNamespace = "app";
+                $templateName = "$routeName";
+            } else {
+                $templateNamespace = $routeNamePart[0];
+                $templateName = $routeNamePart[1];
+            }
             $routeName = "$templateNamespace::$templateName";
             $request = $request->withAttribute(static::KEY_ATTRIBUTE_TEMPLATE_NAME, $routeName);
         };
